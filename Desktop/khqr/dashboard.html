@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body { font-family: 'Kantumruy Pro', sans-serif; background-color: #0b192e; color: #ccd6f6; 
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none; }
+        .card { background-color: #172a45; }
+        .btn-outline { background-color: transparent; color: #64ffda; border: 1px solid #64ffda; }
+        .btn-outline:hover { background-color: rgba(100, 255, 218, 0.1); }
+        .wrapper {
+          display: inline-flex;
+          list-style: none;
+        }
+        .wrapper .icon {
+          position: relative;
+          background: #eef3f8;
+          border-radius: 50%;
+          margin: 5px;
+          width: 40px;
+          height: 40px;
+          font-size: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .tooltip {
+          position: absolute;
+          top: 0;
+          font-size: 12px;
+          background: #fff;
+          color: #fff;
+          padding: 4px 7px;
+          border-radius: 5px;
+          box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+          opacity: 0;
+          pointer-events: none;
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .tooltip::before {
+          position: absolute;
+          content: "";
+          height: 8px;
+          width: 8px;
+          background: #fff;
+          bottom: -3px;
+          left: 50%;
+          transform: translate(-50%) rotate(45deg);
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .icon:hover .tooltip {
+          top: -38px;
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+        .wrapper .icon:hover span,
+        .wrapper .icon:hover .tooltip {
+          text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+        }
+        .wrapper .facebook:hover,
+        .wrapper .facebook:hover .tooltip,
+        .wrapper .facebook:hover .tooltip::before {
+          background: #1877f2;
+          color: #fff;
+        }
+        .wrapper .icon:hover, .wrapper .icon:hover i { color: #fff; }
+        .wrapper .youtube:hover,
+        .wrapper .youtube:hover .tooltip,
+        .wrapper .youtube:hover .tooltip::before {
+          background: #FF0000;
+          color: #fff;
+        }
+        .wrapper .tiktok:hover,
+        .wrapper .tiktok:hover .tooltip,
+        .wrapper .tiktok:hover .tooltip::before {
+          background: #010101;
+          color: #fff;
+        }
+        .nav-button-animated {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          overflow: hidden;
+          border: 2px solid #64ffda;
+          border-radius: 9999px;
+          color: #ccd6f6;
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.7s ease;
+        }
+        .nav-button-animated::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          left: -100%;
+          aspect-ratio: 1 / 1;
+          background-color: #64ffda;
+          border-radius: 50%;
+          transition: all 0.7s ease;
+          z-index: -1;
+        }
+        .nav-button-animated:hover::before {
+          left: 0;
+          transform: scale(1.5);
+        }
+        .nav-button-animated:hover {
+          color: #0a192f;
+        }
+        .nav-button-animated svg {
+          width: 1.25rem;
+          height: 1.25rem;
+          transition: transform 0.3s ease;
+        }
+        .nav-button-animated:hover svg {
+          transform: rotate(90deg);
+        }
+        .nav-button-animated svg path {
+          fill: #ccd6f6;
+          transition: fill 0.7s ease;
+        }
+        .nav-button-animated:hover svg path {
+          fill: #0a192f;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sticky top-0 z-40 border-b border-slate-800/50 bg-[#0b192e]/80 backdrop-blur-sm">
+        <div class="container mx-auto px-6 py-2 flex justify-between items-center">
+             <div class="flex items-center">
+                <a href="home.html" class="flex-shrink-0">
+                    <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-20 h-20 rounded-full border-2 border-cyan-400 object-cover">
+                </a>
+                <div class="ml-4">
+                    <h1 class="text-4xl font-bold text-slate-100">Trabek Prey</h1>
+                    <ul class="wrapper -mt-2 -ml-2">
+                      <a href="https://web.facebook.com/profile.php?id=100068154814209" target="_blank" class="icon facebook">
+                        <span class="tooltip">Facebook</span>
+                        <span><i class="fab fa-facebook-f"></i></span>
+                      </a>
+                      <a href="https://youtube.com/@trabek_prey?si=D3VrDutio04tovOj" target="_blank" class="icon youtube">
+                        <span class="tooltip">YouTube</span>
+                        <span><i class="fab fa-youtube"></i></span>
+                      </a>
+                      <a href="https://www.tiktok.com/@_.trabekprey?_t=ZS-8zVgZGpt0iq&_r=1" target="_blank" class="icon tiktok">
+                        <span class="tooltip">TikTok</span>
+                        <span><i class="fab fa-tiktok"></i></span>
+                      </a>
+                    </ul>
+                </div>
+            </div>
+            <nav id="nav-loggedIn" class="hidden md:flex items-center space-x-2">
+                <a href="home.html" class="nav-button-animated">
+                    <span>ទំព័រដើម</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="./home.html#products" class="nav-button-animated">
+                    <span>Tool ទាំងអស់</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="dashboard.html" class="nav-button-animated">
+                    <span>Tools បានទិញ</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <div class="flex items-center space-x-4 pl-4">
+                     <a href="./bank.html" id="user-balance-header" class="flex items-center space-x-2 text-cyan-400 cursor-pointer hover:text-cyan-300">
+                        <i class="fas fa-wallet"></i>
+                        <span id="balance-amount" class="font-semibold">$0.00</span>
+                    </a>
+                    <a href="bank.html" id="header-user-info" class="hidden items-center gap-2 cursor-pointer group">
+                        <div class="text-left">
+                           <div id="header-user-name" class="text-sm font-semibold text-slate-200 truncate max-w-[100px] group-hover:text-cyan-400 transition-colors"></div>
+                           <div id="header-user-email" class="text-xs text-slate-400 truncate max-w-[100px] group-hover:text-cyan-400 transition-colors"></div>
+                       </div>
+                       <img id="header-user-avatar" src="https://w1.pngwing.com/pngs/743/500/png-transparent-circle-silhouette-logo-user-user-profile-green-facial-expression-nose-cartoon.png" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-slate-700 group-hover:border-cyan-400 transition-colors object-cover flex-shrink-0">
+                   </a>
+                    <button id="logout-btn-header" class="btn-outline font-bold py-1 px-4 text-sm rounded-md transition-colors">Logout</button>
+                </div>
+            </nav>
+            <nav id="nav-loggedOut" class="hidden">
+                 <a href="./home.html" class="text-slate-300 hover:text-cyan-400 transition-colors">Login to continue</a>
+            </nav>
+        </div>
+    </header>
+
+    <div id="loading-section" class="min-h-[calc(100vh-65px)] flex items-center justify-center p-4">
+        <p class="text-slate-400 text-lg">កំពុងទាញយកទិន្នន័យ...</p>
+    </div>
+
+    <main id="dashboard-content" class="hidden container mx-auto p-4 md:p-8">
+        <h1 class="text-3xl font-bold text-slate-100 mb-8">Tools ដែលបានទិញទាំងអស់</h1>
+        <div id="purchased-items-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        </div>
+    </main>
+
+    <footer id="contact" class="footer pt-16 pb-8 mt-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                         <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover">
+                         <h1 class="text-xl font-bold text-slate-100">Trabek Prey</h1>
+                    </div>
+                    <p class="mb-2">រីករាយជាមួយការប្រើប្រាស់ Tools នៅទីនេះជាមួយតម្លៃសមរម្យ</p>
+                    <p>Copyright ©️ ត្របែកព្រៃ-Trabek Prey | Made by ត្របែកព្រៃ-Trabek Prey</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-slate-100 mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="./home.html#products" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-shopping-cart w-4"></i> Products</a></li>
+                        <li><a href="dashboard.html" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-receipt w-4"></i> Orders</a></li>
+                        <li><a href="bank.html" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-plus-circle w-4"></i> Add Balance</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h3 class="font-bold text-slate-100 mb-4">Contact & Follow</h3>
+                    <ul class="space-y-2 text-sm">
+                         <li><a href="mailto:tongchhunleng321@gmail.com" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-envelope w-4"></i> tongchhunleng321@gmail.com</a></li>
+                         <li><a href="https://t.me/Chhunleng1122" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fab fa-telegram w-4"></i> Telegram Channel</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-8 pt-6 text-center text-sm text-slate-500">
+                <p>© 2025 Trabek Prey. All rights reserved. Secure Digital Product Marketplace.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        // ធានាថា Persistence ត្រូវបានកំណត់នៅពេលចាប់ផ្តើម
+        import { getAuth, onAuthStateChanged, signOut, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, onSnapshot, collection, query, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBltRSApiTiafnF7LMWTx9Ct3bGa_D8YtE",
+            authDomain: "user-management-app-96124.firebaseapp.com",
+            projectId: "user-management-app-96124",
+            storageBucket: "user-management-app-96124.firebasestorage.app",
+            messagingSenderId: "43230371264",
+            appId: "1:43230371264:web:ae72b6528e8d64ff47bc25",
+            measurementId: "G-NE0TT29GBB"
+            };
+        const app = initializeApp(firebaseConfig);
+        // កំណត់ persistence ច្បាស់លាស់ដើម្បីរក្សា session នៅពេលផ្លាស់ប្តូរទំព័រ
+        const auth = initializeAuth(app, { persistence: indexedDBLocalPersistence });
+        const db = getFirestore(app);
+
+        const loadingSection = document.getElementById('loading-section');
+        const dashboardContent = document.getElementById('dashboard-content');
+        const purchasedItemsList = document.getElementById('purchased-items-list');
+        const navLoggedIn = document.getElementById('nav-loggedIn');
+        const navLoggedOut = document.getElementById('nav-loggedOut');
+        const balanceAmount = document.getElementById('balance-amount');
+        const logoutBtnHeader = document.getElementById('logout-btn-header');
+        const headerUserInfo = document.getElementById('header-user-info');
+        const headerUserName = document.getElementById('header-user-name');
+        const headerUserEmail = document.getElementById('header-user-email');
+        const headerUserAvatar = document.getElementById('header-user-avatar');
+
+        let unsubscribeUser = null;
+        let unsubscribeOrders = null;
+        let countdownIntervals = [];
+        let hasAttemptedRedirect = false; // NEW FLAG
+
+        onAuthStateChanged(auth, user => {
+            // ប្រើ user.email ដើម្បីត្រួតពិនិត្យថាជាអ្នកប្រើប្រាស់ពិតប្រាកដ (មិនមែនអនាមិក)
+            if (user && user.email) {
+                // User is a real, logged-in user
+                loadingSection.classList.add('hidden');
+                dashboardContent.classList.remove('hidden');
+                navLoggedIn.classList.remove('hidden');
+                navLoggedIn.classList.add('flex');
+                navLoggedOut.classList.add('hidden');
+                setupDashboard(user);
+                hasAttemptedRedirect = false; // Reset if user is successfully logged in
+
+                const displayName = localStorage.getItem('userDisplayName') || user.displayName || user.email.split('@')[0];
+                const userEmail = localStorage.getItem('userEmail') || user.email;
+                const photoURL = localStorage.getItem('userPhotoURL') || user.photoURL;
+
+                headerUserName.textContent = displayName;
+                headerUserEmail.textContent = userEmail;
+                if(photoURL) {
+                    headerUserAvatar.src = photoURL;
+                }
+                headerUserInfo.classList.remove('hidden');
+
+            } else {
+                // User is null (logged out)
+                loadingSection.querySelector('p').textContent = 'Redirecting to login...';
+                navLoggedOut.classList.remove('hidden');
+                navLoggedIn.classList.add('hidden');
+                
+                // Use flag to prevent the timeout from running more than once
+                if (!hasAttemptedRedirect) {
+                    hasAttemptedRedirect = true;
+                    // Keep the 2000ms delay to satisfy the persistent requirement
+                    setTimeout(() => {
+                        // Double check before redirecting
+                        if (!auth.currentUser || !auth.currentUser.email) {
+                            window.location.href = new URL('home.html', window.location.href).href;
+                        }
+                    }, 2000); 
+                }
+            }
+        });
+
+        logoutBtnHeader.addEventListener('click', () => {
+            // សម្អាត local storage មុនពេលចុះឈ្មោះចេញ
+            localStorage.removeItem('userDisplayName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userPhotoURL');
+            signOut(auth);
+        });
+
+        function setupDashboard(user) {
+            const userRef = doc(db, "users", user.uid);
+            unsubscribeUser = onSnapshot(userRef, (doc) => {
+                if(doc.exists()) {
+                    balanceAmount.textContent = `$${(doc.data().balance || 0).toFixed(2)}`;
+                }
+            });
+
+            const ordersRef = collection(db, "users", user.uid, "orders");
+            const q = query(ordersRef, orderBy("purchasedAt", "desc"));
+            
+            unsubscribeOrders = onSnapshot(q, (snapshot) => {
+                countdownIntervals.forEach(clearInterval);
+                countdownIntervals = [];
+
+                purchasedItemsList.innerHTML = '';
+                if (snapshot.empty) {
+                    purchasedItemsList.innerHTML = `<p class="text-slate-400 col-span-full text-center">You haven't purchased any items yet.</p>`;
+                    return;
+                }
+                snapshot.forEach(async (doc) => {
+                    const order = { id: doc.id, ...doc.data() };
+                    const itemCard = await createItemCard(order, user.uid);
+                    if (itemCard) {
+                        purchasedItemsList.appendChild(itemCard);
+                    }
+                });
+            });
+        }
+
+        async function createItemCard(order, userId) {
+            const card = document.createElement('div');
+            card.className = 'card rounded-lg overflow-hidden flex flex-col';
+            if (!order.productId) {
+                console.error("Order is missing productId:", order.id);
+                card.innerHTML = `
+                <div class="p-6 flex-grow flex flex-col items-center justify-center text-center">
+                    <i class="fas fa-exclamation-triangle text-3xl text-red-400 mb-4"></i>
+                    <h3 class="font-bold text-lg text-slate-100 mb-2">Error Loading Item</h3>
+                    <p class="text-sm text-slate-400">This purchase record is corrupted. Please contact support.</p>
+                </div>`;
+                return card;
+            }
+
+            let productData = {};
+            try {
+                const productRef = doc(db, 'products', order.productId);
+                const productSnap = await getDoc(productRef);
+                if (productSnap.exists()) {
+                    productData = productSnap.data();
+                } else {
+                    productData.name = `(Product Not Found)`;
+                    productData.description = "This product may have been removed.";
+                }
+            } catch (e) {
+                console.error("Error fetching product data:", e);
+                productData.description = "Error loading product details.";
+            }
+            
+            const expiresAt = order.expiresAt ? order.expiresAt.toDate() : null;
+            let expiryDateText = 'N/A';
+            let statusText = 'Pending';
+            let statusClass = 'bg-yellow-500 text-black';
+
+            if (order.status === 'active') {
+                if (order.duration && order.duration.toLowerCase() === 'lifetime') {
+                    expiryDateText = 'Lifetime Access';
+                    statusText = 'Active';
+                    statusClass = 'bg-green-500 text-white';
+                } else if (expiresAt) {
+                    expiryDateText = expiresAt.toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    if (new Date() > expiresAt) {
+                        statusText = 'Expired';
+                        statusClass = 'bg-red-500 text-white';
+                    } else {
+                        statusText = 'Active';
+                        statusClass = 'bg-green-500 text-white';
+                    }
+                } else {
+                    statusText = 'Active';
+                    statusClass = 'bg-green-500 text-white';
+                    expiryDateText = 'No expiration set';
+                }
+            } else {
+                statusText = order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : 'Inactive';
+                statusClass = 'bg-slate-500 text-white';
+            }
+
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${productData.imageUrl || 'https://placehold.co/600x400/172a45/64ffda?text=Item'}" alt="${productData.name || 'Product Image'}" class="w-full h-auto object-cover">
+                    <div class="absolute top-3 right-3 text-sm font-bold px-3 py-1 rounded-full ${statusClass}">${statusText}</div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="font-bold text-2xl text-slate-100 mb-2">${productData.name || 'Unnamed Product'}</h3>
+                    <p class="text-base text-slate-400 mb-3">${productData.description || ''}</p>
+                    <p class="text-base text-cyan-400 mb-5">អ្នកបានទិញ: ${order.duration || 'N/A'}</p>
+                    
+                    <hr class="border-slate-700/50 my-4">
+
+                    <div class="mt-auto">
+                        <p class="text-sm text-slate-400">ផុតកំណត់នៅ: ${expiryDateText}</p>
+                        <p id="countdown-${order.id}" class="text-lg font-bold text-green-400 h-7"></p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <!-- ADDED target="_blank" HERE to open the viewer in a new tab -->
+                        <a href="./viewer.html?orderId=${order.id}" target="_blank" class="text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors">ចូលប្រើ Tools</a>
+                        <button class="btn-delete bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-colors" data-order-id="${order.id}">លុប Tools នេះ</button>
+                    </div>
+                </div>
+            `;
+
+            const countdownElement = card.querySelector(`#countdown-${order.id}`);
+
+            if (statusText === 'Active' && expiresAt) {
+                const updateCountdown = () => {
+                    const now = new Date();
+                    const distance = expiresAt - now;
+
+                    if (distance < 0) {
+                        clearInterval(intervalId);
+                        countdownElement.textContent = 'Item has expired';
+                        countdownElement.classList.remove('text-green-400');
+                        countdownElement.classList.add('text-red-400');
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    countdownElement.textContent = `រយៈពេលនៅសល់: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+                };
+
+                updateCountdown();
+                const intervalId = setInterval(updateCountdown, 1000);
+                countdownIntervals.push(intervalId);
+            } else if (statusText === 'Expired') {
+                 countdownElement.textContent = 'Item has expired';
+                 countdownElement.classList.remove('text-green-400');
+                 countdownElement.classList.add('text-red-400');
+            }
+
+            const deleteBtn = card.querySelector('.btn-delete');
+            deleteBtn.addEventListener('click', async () => {
+                // NOTE: Using window.confirm() here as the original code was using it.
+                if (window.confirm(`Are you sure you want to delete "${productData.name || 'this item'}" from your list?`)) {
+                    try {
+                        const orderRef = doc(db, "users", userId, "orders", order.id);
+                        await deleteDoc(orderRef);
+                    } catch (error) {
+                        console.error("Error deleting order:", error);
+                        // NOTE: Using window.alert() here as the original code was using it.
+                        window.alert("Failed to delete the item.");
+                    }
+                }
+            });
+
+            return card;
+        }
+
+    </script>
+
+    <!-- SECURITY / ANTI-INSPECT SCRIPTS -->
+    <script>
+        // Disable Right-click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable specific keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+I (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+            }
+        });
+
+        // Debugger Trap
+        setInterval(function() {
+            var start = performance.now();
+            debugger;
+            if (performance.now() - start > 100) {
+                document.body.innerHTML = "Inspector is open! Please close it to continue.";
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

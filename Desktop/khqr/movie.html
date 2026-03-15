@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies - Trabek Prey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Kantumruy Pro', sans-serif; 
+            background-color: #0b192e; 
+            color: #ccd6f6;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .header { background-color: #0b192e; }
+        .btn-green { background-color: #64ffda; color: #000000 !important; }
+        .btn-green * { color: #000000 !important; }
+        .btn-green:hover { background-color: #52d3b4; }
+        .btn-outline { background-color: transparent; color: #64ffda; border: 1px solid #64ffda; }
+        .btn-outline:hover { background-color: rgba(100, 255, 218, 0.1); }
+        .card { background-color: #112240; border: 1px solid #233554; }
+        .input-field { background-color: #0a192f; border-color: #233554; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
+        .modal-content { background-color: #112240; }
+        .line-clamp-2 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+        .nav-button-animated {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          overflow: hidden;
+          border: 2px solid #64ffda;
+          border-radius: 9999px;
+          color: #ccd6f6;
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.7s ease;
+        }
+        .nav-button-animated::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          left: -100%;
+          aspect-ratio: 1 / 1;
+          background-color: #64ffda;
+          border-radius: 50%;
+          transition: all 0.7s ease;
+          z-index: -1;
+        }
+        .nav-button-animated:hover::before { left: 0; transform: scale(1.5); }
+        .nav-button-animated:hover { color: #0a192f; }
+        .nav-button-animated svg { width: 1.25rem; height: 1.25rem; transition: transform 0.3s ease; }
+        .nav-button-animated:hover svg { transform: rotate(90deg); }
+        .nav-button-animated svg path { fill: #ccd6f6; transition: fill 0.7s ease; }
+        .nav-button-animated:hover svg path { fill: #0a192f; }
+    </style>
+</head>
+<body>
+    <header class="header sticky top-0 z-40 border-b border-slate-800/50">
+        <div class="container mx-auto px-6 py-2 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="home.html" class="flex-shrink-0">
+                    <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-16 h-16 rounded-full border-2 border-cyan-400 object-cover">
+                </a>
+                <div class="ml-4">
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Trabek Prey</h1>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-2">
+                <a href="home.html" class="nav-button-animated">
+                    <span>ទំព័រដើម</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="movie.html" class="nav-button-animated">
+                    <span>រឿងទាំងអស់</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="dashboard.html" class="nav-button-animated">
+                    <span>Tools បានទិញ</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <div class="flex items-center space-x-4 pl-4">
+                    <a href="bank.html" id="user-balance-header" class="hidden items-center space-x-2 text-cyan-400 text-sm hover:text-green-400 transition-colors">
+                        <i class="fas fa-wallet"></i>
+                        <span id="balance-amount" class="font-semibold"></span>
+                    </a>
+                    <a href="bank.html" id="header-user-info" class="hidden items-center gap-2 cursor-pointer group">
+                        <div class="text-right">
+                           <div id="header-user-name" class="text-sm font-semibold text-slate-200 truncate max-w-[120px] group-hover:text-cyan-400 transition-colors"></div>
+                           <div class="flex items-center justify-end gap-2">
+                                <span id="header-user-email" class="text-[10px] text-slate-400 truncate max-w-[160px]"></span>
+                           </div>
+                       </div>
+                       <img id="header-user-avatar" src="https://w1.pngwing.com/pngs/743/500/png-transparent-circle-silhouette-logo-user-user-profile-green-facial-expression-nose-cartoon.png" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-slate-700 group-hover:border-cyan-400 transition-colors object-cover flex-shrink-0">
+                   </a>
+                    <button id="login-logout-btn" class="btn-outline font-bold py-1 px-4 text-sm rounded-md transition-colors"></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container lg:max-w-7xl mx-auto px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <section class="flex-1">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-100">រឿងល្បីៗ សម្រាប់យកមកសម្រាយ</h2>
+                        <p class="text-slate-400 mt-2">ស្វែងរក និងទិញរឿងដែលអ្នកចង់យកមកសម្រាយ</p>
+                    </div>
+                    <div class="w-full md:w-96">
+                        <div class="flex items-center gap-2 border border-slate-700/70 rounded-md p-2 bg-[#0a192f]">
+                            <input type="text" id="story-search" class="input-field w-full p-2 rounded-md border-0" placeholder="Search movies by title...">
+                            <button id="story-search-btn" class="btn-outline font-bold py-2 px-4 text-sm rounded-md transition-colors">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagination-top" class="flex flex-wrap items-center justify-center gap-2 mb-6"></div>
+                <div id="story-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start"></div>
+                <div id="pagination-bottom" class="flex flex-wrap items-center justify-center gap-2 mt-6"></div>
+            </section>
+
+            <aside class="w-full lg:w-80 lg:ml-auto space-y-6">
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">ស្នើសុំរឿង</h3>
+                    <p class="text-sm text-slate-400 mb-4">អ្នកអាចស្នើសុំរឿងដែលចង់ទិញបាន។ សំណើទាំងអស់អាចឃើញបានដោយអ្នកប្រើទាំងអស់។</p>
+                    <form id="movie-request-form" class="space-y-3">
+                        <div>
+                            <label for="request-title" class="block text-sm font-medium text-slate-300 mb-2">ឈ្មោះរឿង</label>
+                            <input type="text" id="request-title" class="input-field w-full p-2 rounded-md" placeholder="ឧទាហរណ៍៖ A Deal With My Billionaire Donor" required>
+                        </div>
+                        <div>
+                            <label for="request-details" class="block text-sm font-medium text-slate-300 mb-2">ពណ៌នា/តំណ</label>
+                            <textarea id="request-details" rows="3" class="input-field w-full p-2 rounded-md" placeholder="បញ្ចូលព័ត៌មានបន្ថែម ឬតំណភ្ជាប់..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-green font-bold py-2 px-4 rounded-md">ស្នើសុំ</button>
+                        <div id="movie-request-status" class="text-xs text-center h-4"></div>
+                    </form>
+                </div>
+
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">រឿងដែលបានស្នើមានចំនួន <span id="pending-requests-count" class="text-cyan-400">0</span></h3>
+                    <div id="pending-requests-list" class="space-y-3 max-h-64 overflow-y-auto">
+                        <p class="text-sm text-slate-400 text-center">មិនទាន់មានសំណើទេ។</p>
+                    </div>
+                </div>
+
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">រឿងដែលស្នើបានជោគជ័យមានចំនួន <span id="approved-requests-count" class="text-green-400">0</span></h3>
+                    <div id="approved-requests-list" class="space-y-3 max-h-64 overflow-y-auto">
+                        <p class="text-sm text-slate-400 text-center">មិនទាន់មានសំណើដែលបានអនុម័តទេ។</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <div id="modal-container">
+        <!-- Story Preview Modal -->
+        <div id="story-preview-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-5xl p-4 rounded-lg shadow-2xl border border-slate-700 relative">
+                <button id="close-story-preview-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <div class="aspect-video bg-slate-900 rounded-md overflow-hidden">
+                    <iframe id="story-preview-iframe" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <!-- Login Modal -->
+        <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-8 rounded-lg shadow-2xl border border-slate-700 relative">
+                <button id="close-login-modal-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <div class="text-center mb-6">
+                    <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-20 h-20 rounded-full border-2 border-cyan-400 object-cover mx-auto">
+                </div>
+                <div id="login-view">
+                    <div class="text-2xl text-center font-bold text-slate-100 mb-6">ចូលគណនី</div>
+                    <form id="login-form">
+                        <div class="mb-4">
+                            <label for="login-email-modal" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="login-email-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="login-password-modal" class="block text-sm font-medium mb-2">Password</label>
+                            <input type="password" id="login-password-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div id="login-error-modal" class="text-red-400 text-sm mb-4 text-center h-5"></div>
+                        <button type="submit" class="w-full btn-green font-bold py-2 px-4 rounded-md transition-colors">Login</button>
+                    </form>
+                    <p class="text-center text-sm text-slate-400 mt-6">
+                        មិនទាន់មានគណនី? <a href="#" id="show-signup-link" class="font-semibold text-cyan-400 hover:underline">បង្កើតគណនី</a>
+                    </p>
+                </div>
+                <div id="signup-view" class="hidden">
+                    <div class="text-2xl text-center font-bold text-slate-100 mb-6">បង្កើតគណនី</div>
+                    <form id="signup-form">
+                        <div class="mb-4">
+                            <label for="signup-name-modal" class="block text-sm font-medium mb-2">ឈ្មោះ</label>
+                            <input type="text" id="signup-name-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="signup-email-modal" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="signup-email-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="signup-password-modal" class="block text-sm font-medium mb-2">Password ( ចូរបង្កើត ៦ ខ្ទង់ឡើងទៅ )</label>
+                            <input type="password" id="signup-password-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div id="signup-error-modal" class="text-red-400 text-sm mb-4 text-center h-5"></div>
+                        <button type="submit" class="w-full btn-green font-bold py-2 px-4 rounded-md transition-colors">Sign Up</button>
+                    </form>
+                    <p class="text-center text-sm text-slate-400 mt-6">
+                        មានគណនីរួចហើយ? <a href="#" id="show-login-link" class="font-semibold text-cyan-400 hover:underline">ចូលគណនី</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Success Modal -->
+        <div id="purchase-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-md p-8 rounded-lg shadow-2xl border border-slate-700 text-center">
+                 <div class="mb-4 text-5xl text-green-400"><i class="fas fa-check-circle"></i></div>
+                 <h2 class="text-xl font-bold text-slate-100 mb-4">ការទិញបានជោគជ័យ</h2>
+                 <p class="text-slate-300 mb-8">អរគុណសម្រាប់ការទិញរឿងនេះ។ ឥឡូវអ្នកអាចទាញយកបានហើយ។</p>
+                <div class="flex gap-4">
+                    <button id="close-success-modal-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បិទ</button>
+                    <a href="bank.html" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">ពិនិត្យលទ្ធភាព</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insufficient Funds Modal -->
+        <div id="insufficient-funds-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-8 rounded-lg shadow-2xl border border-red-500/50 text-center">
+                 <div class="mb-4 text-5xl text-red-400"><i class="fas fa-exclamation-triangle"></i></div>
+                 <h2 class="text-xl font-bold text-slate-100 mb-2">ទឹកប្រាក់មិនគ្រប់គ្រាន់</h2>
+                 <p class="text-sm text-slate-400 mb-6">កាបូបរបស់អ្នកមានទឹកប្រាក់មិនគ្រប់គ្រាន់សម្រាប់ទិញទំនិញនេះទេ។ សូមធ្វើការបញ្ចូលទឹកប្រាក់បន្ថែម។</p>
+                 <div class="flex gap-4">
+                     <button id="close-funds-modal-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បោះបង់</button>
+                     <a href="bank.html" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">បញ្ចូលទឹកប្រាក់</a>
+                 </div>
+            </div>
+        </div>
+
+        <!-- Purchase Confirm Modal -->
+        <div id="purchase-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-6 rounded-lg shadow-2xl border border-slate-700 text-center relative">
+                <button id="close-purchase-confirm-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <h2 class="text-xl font-bold text-slate-100 mb-3">បញ្ជាក់ការទិញ</h2>
+                <p id="purchase-confirm-text" class="text-sm text-slate-300 mb-6"></p>
+                <div class="flex gap-4">
+                    <button id="cancel-purchase-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បោះបង់</button>
+                    <button id="confirm-purchase-btn" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors">ទិញ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Modal -->
+        <div id="download-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-6 rounded-lg shadow-2xl border border-slate-700 text-center">
+                <h2 class="text-xl font-bold text-slate-100 mb-3">ការទិញបានជោគជ័យ</h2>
+                <p class="text-sm text-slate-300 mb-6">ឥឡូវអ្នកអាចទាញយករឿងបានហើយ។</p>
+                <div class="flex gap-4">
+                    <button id="close-download-modal-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បិទ</button>
+                    <a id="download-link-btn" href="#" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">ទាញយករឿង</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, collection, query, orderBy, getDoc, updateDoc, increment, addDoc, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBltRSApiTiafnF7LMWTx9Ct3bGa_D8YtE",
+            authDomain: "user-management-app-96124.firebaseapp.com",
+            projectId: "user-management-app-96124",
+            storageBucket: "user-management-app-96124.firebasestorage.app",
+            messagingSenderId: "43230371264",
+            appId: "1:43230371264:web:ae72b6528e8d64ff47bc25",
+            measurementId: "G-NE0TT29GBB"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = initializeAuth(app, { persistence: indexedDBLocalPersistence });
+        const db = getFirestore(app);
+
+        const storyListDiv = document.getElementById('story-list');
+        const storySearchInput = document.getElementById('story-search');
+        const paginationTop = document.getElementById('pagination-top');
+        const paginationBottom = document.getElementById('pagination-bottom');
+        const storySearchBtn = document.getElementById('story-search-btn');
+        const loginModal = document.getElementById('login-modal');
+        const storyPreviewModal = document.getElementById('story-preview-modal');
+        const storyPreviewIframe = document.getElementById('story-preview-iframe');
+        const closeStoryPreviewBtn = document.getElementById('close-story-preview-btn');
+        const successModal = document.getElementById('purchase-success-modal');
+        const fundsModal = document.getElementById('insufficient-funds-modal');
+        const purchaseConfirmModal = document.getElementById('purchase-confirm-modal');
+        const purchaseConfirmText = document.getElementById('purchase-confirm-text');
+        const confirmPurchaseBtn = document.getElementById('confirm-purchase-btn');
+        const cancelPurchaseBtn = document.getElementById('cancel-purchase-btn');
+        const closePurchaseConfirmBtn = document.getElementById('close-purchase-confirm-btn');
+        const downloadModal = document.getElementById('download-modal');
+        const downloadLinkBtn = document.getElementById('download-link-btn');
+        const closeDownloadModalBtn = document.getElementById('close-download-modal-btn');
+        const closeSuccessModalBtn = document.getElementById('close-success-modal-btn');
+        const closeFundsModalBtn = document.getElementById('close-funds-modal-btn');
+        const closeLoginModalBtn = document.getElementById('close-login-modal-btn');
+
+        const userBalanceHeader = document.getElementById('user-balance-header');
+        const balanceAmount = document.getElementById('balance-amount');
+        const loginLogoutBtn = document.getElementById('login-logout-btn');
+        const headerUserInfo = document.getElementById('header-user-info');
+        const headerUserName = document.getElementById('header-user-name');
+        const headerUserEmail = document.getElementById('header-user-email');
+        const headerUserAvatar = document.getElementById('header-user-avatar');
+
+        const loginView = document.getElementById('login-view');
+        const signupView = document.getElementById('signup-view');
+        const showSignupLink = document.getElementById('show-signup-link');
+        const showLoginLink = document.getElementById('show-login-link');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginErrorModal = document.getElementById('login-error-modal');
+        const signupErrorModal = document.getElementById('signup-error-modal');
+
+        const movieRequestForm = document.getElementById('movie-request-form');
+        const requestTitleInput = document.getElementById('request-title');
+        const requestDetailsInput = document.getElementById('request-details');
+        const movieRequestStatus = document.getElementById('movie-request-status');
+        const pendingRequestsList = document.getElementById('pending-requests-list');
+        const approvedRequestsList = document.getElementById('approved-requests-list');
+        const pendingRequestsCount = document.getElementById('pending-requests-count');
+        const approvedRequestsCount = document.getElementById('approved-requests-count');
+
+        let unsubscribeStories = null;
+        let unsubscribeRequests = null;
+        let storiesCache = {};
+        let allStories = [];
+        let currentPage = 1;
+        const itemsPerPage = 24;
+        let unsubscribeUser = null;
+        let pendingPurchaseStory = null;
+        let pendingPurchaseButton = null;
+
+        function loadStories() {
+            if (!storyListDiv) return;
+            if (unsubscribeStories) unsubscribeStories();
+
+            const q = query(collection(db, "storySummaries"));
+            unsubscribeStories = onSnapshot(q, (snapshot) => {
+                storyListDiv.innerHTML = '';
+                storiesCache = {};
+                allStories = [];
+                if (snapshot.empty) {
+                    storyListDiv.innerHTML = '<p class="text-center text-slate-400 col-span-full">ពេលនេះមិនទាន់មានរឿងនៅក្នុងបញ្ជីទេ។</p>';
+                    if (paginationTop) paginationTop.innerHTML = '';
+                    if (paginationBottom) paginationBottom.innerHTML = '';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const story = { id: doc.id, ...doc.data() };
+                    storiesCache[story.id] = story;
+                    allStories.push(story);
+                });
+                allStories.sort((a, b) => getStorySortMillis(b) - getStorySortMillis(a));
+                applyFilterAndRender(true);
+            }, (error) => {
+                console.error("Error fetching stories: ", error);
+                storyListDiv.innerHTML = '<p class="text-center text-red-400 col-span-full">មិនអាចទាញយករឿងបានទេ។ សូមពិនិត្យសិទ្ធិ។</p>';
+            });
+        }
+
+        function formatEpisodes(value) {
+            if (value === undefined || value === null || value === '') return 'មិនបានកំណត់';
+            if (typeof value === 'number') return `${value} ភាគ`;
+            const text = String(value).trim();
+            return text.length ? text : 'មិនបានកំណត់';
+        }
+
+        function toKhmerNumber(value) {
+            const map = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
+            return String(value).replace(/\d/g, (d) => map[parseInt(d, 10)]);
+        }
+
+        function formatRelativeTime(value) {
+            if (!value || !value.toDate) return '';
+            const now = Date.now();
+            const target = value.toDate().getTime();
+            const diffSeconds = Math.max(0, Math.floor((now - target) / 1000));
+
+            if (diffSeconds < 5) return 'មុននេះបន្តិច';
+
+            const units = [
+                { label: 'ឆ្នាំ', seconds: 31536000 },
+                { label: 'ខែ', seconds: 2592000 },
+                { label: 'ថ្ងៃ', seconds: 86400 },
+                { label: 'ម៉ោង', seconds: 3600 },
+                { label: 'នាទី', seconds: 60 },
+                { label: 'វិនាទី', seconds: 1 }
+            ];
+
+            for (const unit of units) {
+                if (diffSeconds >= unit.seconds) {
+                    const value = Math.floor(diffSeconds / unit.seconds);
+                    return `${toKhmerNumber(value)}${unit.label}មុន`;
+                }
+            }
+
+            return 'មុននេះបន្តិច';
+        }
+
+        function getStorySortMillis(story) {
+            return story.updatedAt?.toMillis?.() || story.createdAt?.toMillis?.() || 0;
+        }
+
+        function getStoryTime(story) {
+            return story.updatedAt || story.createdAt || null;
+        }
+
+        function createStoryCard(story) {
+            const storyCard = document.createElement('div');
+            storyCard.className = 'card rounded-lg overflow-hidden flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10 story-card';
+            storyCard.dataset.storyId = story.id;
+            storyCard.dataset.title = (story.title || '').toLowerCase();
+
+            const displayPrice = `$${parseFloat(story.price || 0).toFixed(2)}`;
+            const episodesText = formatEpisodes(story.episodes);
+            const createdDate = formatRelativeTime(getStoryTime(story));
+            const downloadCount = typeof story.downloadCount === 'number' ? story.downloadCount : 0;
+
+            storyCard.innerHTML = `
+                <div class="relative aspect-[4/5] bg-slate-800">
+                    <img src="${story.imageUrl || 'https://placehold.co/600x900/112240/64ffda?text=Story'}" alt="${story.title || 'Story'}" class="w-full h-full object-cover">
+                    <span class="absolute top-2 left-2 bg-blue-600/80 text-white text-xs font-semibold px-2 py-1 rounded-full">${episodesText}</span>
+                    ${createdDate ? `<span class="absolute top-2 right-2 bg-slate-900/70 text-white text-[10px] px-2 py-1 rounded-full">${createdDate}</span>` : ''}
+                    <span class="absolute bottom-2 right-2 bg-slate-900/70 text-white text-[10px] px-2 py-1 rounded-full">ទាញយក ${downloadCount}</span>
+                </div>
+                <div class="p-4 flex-grow flex flex-col">
+                    <h3 class="font-bold text-base text-slate-100 mb-3 line-clamp-2">${story.title || 'Untitled Story'}</h3>
+                    <div class="mt-auto space-y-2">
+                        <a href="${story.previewUrl || '#'}" target="_blank" class="story-preview-btn w-full inline-flex items-center justify-center btn-outline font-bold py-2.5 px-3 text-sm rounded-md transition-colors">មើលរឿងសាកល្បង</a>
+                        <button class="story-buy-btn w-full btn-outline font-bold py-2.5 px-3 text-sm rounded-md transition-colors">ទិញរឿង ${displayPrice}</button>
+                    </div>
+                </div>`;
+            return storyCard;
+        }
+
+        function applyFilterAndRender(resetPage = false) {
+            if (resetPage) currentPage = 1;
+            const searchTerm = (storySearchInput?.value || '').toLowerCase().trim();
+            const filtered = allStories.filter(story => (story.title || '').toLowerCase().includes(searchTerm));
+            renderStoriesPage(filtered);
+        }
+
+        function renderStoriesPage(stories) {
+            const totalPages = Math.max(1, Math.ceil(stories.length / itemsPerPage));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const pageItems = stories.slice(startIndex, startIndex + itemsPerPage);
+
+            storyListDiv.innerHTML = '';
+            if (pageItems.length === 0) {
+                storyListDiv.innerHTML = '<p class="text-center text-slate-400 col-span-full">ពេលនេះមិនទាន់មានរឿងនៅក្នុងបញ្ជីទេ។</p>';
+            } else {
+                pageItems.forEach(story => storyListDiv.appendChild(createStoryCard(story)));
+            }
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const buildButtons = (container) => {
+                if (!container) return;
+                container.innerHTML = '';
+                if (totalPages <= 1) return;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = `px-3 py-1 rounded-md text-sm font-semibold transition-colors ${i === currentPage ? 'bg-cyan-500 text-slate-900' : 'bg-slate-800 text-slate-200 hover:bg-slate-700'}`;
+                    btn.textContent = i;
+                    btn.addEventListener('click', () => {
+                        currentPage = i;
+                        applyFilterAndRender();
+                    });
+                    container.appendChild(btn);
+                }
+            };
+
+            buildButtons(paginationTop);
+            buildButtons(paginationBottom);
+        }
+
+        function renderRequestList(requests, container, emptyText) {
+            if (!container) return;
+            container.innerHTML = '';
+            if (requests.length === 0) {
+                container.innerHTML = `<p class="text-sm text-slate-400 text-center">${emptyText}</p>`;
+                return;
+            }
+
+            requests.forEach(req => {
+                const item = document.createElement('div');
+                item.className = 'bg-slate-900/50 border border-slate-800 rounded-md p-3 text-sm';
+                const createdAt = req.createdAt?.toDate ? req.createdAt.toDate().toLocaleString() : '';
+                const approvedAt = req.approvedAt?.toDate ? req.approvedAt.toDate().toLocaleString() : '';
+                item.innerHTML = `
+                    <p class="font-semibold text-slate-100">${req.title || 'Untitled'}</p>
+                    <p class="text-xs text-slate-400">ស្នើដោយ: ${req.requesterName || 'Unknown'}</p>
+                    ${req.details ? `<p class="text-xs text-slate-500 mt-1">${req.details}</p>` : ''}
+                    ${createdAt ? `<p class="text-[10px] text-slate-500 mt-2">ស្នើនៅ: ${createdAt}</p>` : ''}
+                    ${approvedAt ? `<p class="text-[10px] text-green-400 mt-1">អនុម័តនៅ: ${approvedAt}</p>` : ''}
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function listenForMovieRequests() {
+            if (unsubscribeRequests) unsubscribeRequests();
+            if (!pendingRequestsList || !approvedRequestsList) return;
+
+            unsubscribeRequests = onSnapshot(collection(db, "storyRequests"), (snapshot) => {
+                const pending = [];
+                const approved = [];
+
+                snapshot.forEach(doc => {
+                    const req = { id: doc.id, ...doc.data() };
+                    if (req.status === 'approved') {
+                        approved.push(req);
+                    } else if (req.status === 'pending') {
+                        pending.push(req);
+                    }
+                });
+
+                pending.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+                approved.sort((a, b) => (b.approvedAt?.toMillis?.() || b.createdAt?.toMillis?.() || 0) - (a.approvedAt?.toMillis?.() || a.createdAt?.toMillis?.() || 0));
+
+                pendingRequestsCount.textContent = pending.length;
+                approvedRequestsCount.textContent = approved.length;
+                renderRequestList(pending, pendingRequestsList, 'មិនទាន់មានសំណើទេ។');
+                renderRequestList(approved, approvedRequestsList, 'មិនទាន់មានសំណើដែលបានអនុម័តទេ។');
+            }, (error) => {
+                console.error('Error fetching movie requests:', error);
+                pendingRequestsList.innerHTML = '<p class="text-sm text-red-400 text-center">មិនអាចទាញយកសំណើបានទេ។</p>';
+                approvedRequestsList.innerHTML = '<p class="text-sm text-red-400 text-center">មិនអាចទាញយកសំណើបានទេ។</p>';
+            });
+        }
+
+        onAuthStateChanged(auth, user => {
+            if (user && user.email) {
+                const userRef = doc(db, "users", user.uid);
+                getDoc(userRef).then(userDoc => {
+                    if (!userDoc.exists()) {
+                        setDoc(userRef, {
+                            email: user.email,
+                            displayName: user.displayName || user.email.split('@')[0],
+                            photoURL: user.photoURL,
+                            balance: 0,
+                            createdAt: serverTimestamp()
+                        });
+                    }
+                });
+
+                loginLogoutBtn.textContent = 'Logout';
+                headerUserInfo.classList.remove('hidden');
+                headerUserInfo.classList.add('flex');
+
+                unsubscribeUser = onSnapshot(userRef, (doc) => {
+                    if (doc.exists()) {
+                        const userData = doc.data();
+                        const balance = (userData.balance || 0).toFixed(2);
+                        const displayName = userData.displayName || user.displayName || userData.email.split('@')[0];
+                        const userEmail = userData.email;
+                        const photoURL = userData.photoURL || user.photoURL;
+
+                        balanceAmount.textContent = `$${balance}`;
+                        userBalanceHeader.classList.remove('hidden');
+                        userBalanceHeader.classList.add('flex');
+                        headerUserName.textContent = displayName;
+                        headerUserEmail.textContent = userEmail;
+                        if (photoURL) {
+                            headerUserAvatar.src = photoURL;
+                        }
+                    }
+                });
+                loadStories();
+                listenForMovieRequests();
+            } else {
+                loginLogoutBtn.textContent = 'Login';
+                headerUserInfo.classList.add('hidden');
+                userBalanceHeader.classList.add('hidden');
+                if (unsubscribeUser) unsubscribeUser();
+                loadStories();
+                listenForMovieRequests();
+            }
+        });
+
+        function closeLoginModal() {
+            loginModal.classList.add('hidden');
+            loginForm.reset();
+            signupForm.reset();
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+            signupView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+        }
+
+        function handleLogout() { signOut(auth); }
+        function handleLogin() { loginModal.classList.remove('hidden'); }
+
+        loginLogoutBtn.addEventListener('click', () => { auth.currentUser?.email ? handleLogout() : handleLogin(); });
+        closeLoginModalBtn.addEventListener('click', closeLoginModal);
+        loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLoginModal(); });
+        if (closeStoryPreviewBtn) {
+            closeStoryPreviewBtn.addEventListener('click', () => {
+                storyPreviewIframe.src = '';
+                storyPreviewModal.classList.add('hidden');
+            });
+        }
+        if (cancelPurchaseBtn) {
+            cancelPurchaseBtn.addEventListener('click', () => {
+                purchaseConfirmModal.classList.add('hidden');
+                pendingPurchaseStory = null;
+            });
+        }
+        if (closePurchaseConfirmBtn) {
+            closePurchaseConfirmBtn.addEventListener('click', () => {
+                purchaseConfirmModal.classList.add('hidden');
+                pendingPurchaseStory = null;
+            });
+        }
+        if (closeDownloadModalBtn) {
+            closeDownloadModalBtn.addEventListener('click', () => {
+                downloadModal.classList.add('hidden');
+                downloadLinkBtn.href = '#';
+            });
+        }
+
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginView.classList.add('hidden');
+            signupView.classList.remove('hidden');
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginErrorModal.textContent = '';
+            try {
+                await signInWithEmailAndPassword(auth, loginForm['login-email-modal'].value, loginForm['login-password-modal'].value);
+                closeLoginModal();
+            } catch (error) {
+                loginErrorModal.textContent = 'បញ្ចូលខុសហើយ Email ឬ Password .';
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            signupErrorModal.textContent = '';
+            const name = signupForm['signup-name-modal'].value;
+            const email = signupForm['signup-email-modal'].value;
+            const password = signupForm['signup-password-modal'].value;
+
+            if (!name.trim()) {
+                signupErrorModal.textContent = 'សូមបញ្ចូលឈ្មោះរបស់អ្នក។';
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, { displayName: name });
+                closeLoginModal();
+            } catch (error) {
+                if (error.code == 'auth/email-already-in-use') {
+                    signupErrorModal.textContent = 'អ្នកបានបង្កើត Gmail​ នេះរួចម្តងហើយ,មិនអាចបង្កើតបានទៀតទេ.';
+                } else if (error.code == 'auth/weak-password') {
+                    signupErrorModal.textContent = 'Password should be at least 6 characters.';
+                } else {
+                    signupErrorModal.textContent = 'An error occurred during sign up.';
+                }
+            }
+        });
+
+        if (storyListDiv) {
+            storyListDiv.addEventListener('click', async (e) => {
+                const previewBtn = e.target.closest('.story-preview-btn');
+                const buyBtn = e.target.closest('.story-buy-btn');
+                const card = e.target.closest('.story-card');
+                if (!card) return;
+
+                const storyId = card.dataset.storyId;
+                const storyData = storiesCache[storyId];
+                if (!storyData) return;
+
+                if (previewBtn) {
+                    e.preventDefault();
+                    if (storyData.previewUrl) {
+                        storyPreviewIframe.src = storyData.previewUrl;
+                        storyPreviewModal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (buyBtn) {
+                    if (!auth.currentUser || !auth.currentUser.email) {
+                        loginModal.classList.remove('hidden');
+                        return;
+                    }
+
+                    pendingPurchaseStory = storyData;
+                    pendingPurchaseButton = buyBtn;
+                    const displayPrice = parseFloat(storyData.price || 0).toFixed(2);
+                    purchaseConfirmText.textContent = `តើអ្នកពិតជាចង់ទិញរឿង "${storyData.title || 'Untitled Story'}" ក្នុងតម្លៃ $${displayPrice} មែនទេ?`;
+                    purchaseConfirmModal.classList.remove('hidden');
+                }
+            });
+        }
+
+        if (confirmPurchaseBtn) {
+            confirmPurchaseBtn.addEventListener('click', async () => {
+                if (!pendingPurchaseStory) {
+                    purchaseConfirmModal.classList.add('hidden');
+                    return;
+                }
+
+                confirmPurchaseBtn.disabled = true;
+                confirmPurchaseBtn.textContent = 'Processing...';
+
+                try {
+                    const price = parseFloat(pendingPurchaseStory.price || 0);
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    const userDoc = await getDoc(userRef);
+                    const balance = userDoc.data()?.balance || 0;
+
+                    if (balance >= price) {
+                        await updateDoc(userRef, { balance: increment(-price) });
+                        await addDoc(collection(db, "users", auth.currentUser.uid, "storyOrders"), {
+                            storyId: pendingPurchaseStory.id,
+                            title: pendingPurchaseStory.title || 'Untitled Story',
+                            price,
+                            episodes: pendingPurchaseStory.episodes || '',
+                            previewUrl: pendingPurchaseStory.previewUrl || '',
+                            downloadUrl: pendingPurchaseStory.downloadUrl || '',
+                            purchasedAt: serverTimestamp()
+                        });
+
+                        purchaseConfirmModal.classList.add('hidden');
+                        const downloadUrl = pendingPurchaseStory.downloadUrl || '#';
+                        downloadLinkBtn.href = downloadUrl;
+                        downloadLinkBtn.target = '_blank';
+                        downloadModal.classList.remove('hidden');
+                    } else {
+                        purchaseConfirmModal.classList.add('hidden');
+                        fundsModal.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error(`Story purchase failed: ${error.message}.`);
+                } finally {
+                    confirmPurchaseBtn.disabled = false;
+                    confirmPurchaseBtn.textContent = 'ទិញ';
+                    pendingPurchaseStory = null;
+                    if (pendingPurchaseButton) {
+                        pendingPurchaseButton = null;
+                    }
+                }
+            });
+        }
+
+        storySearchInput.addEventListener('input', () => applyFilterAndRender(true));
+        if (storySearchBtn) {
+            storySearchBtn.addEventListener('click', () => applyFilterAndRender(true));
+        }
+
+        if (movieRequestForm) {
+            movieRequestForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                movieRequestStatus.textContent = '';
+
+                if (!auth.currentUser || !auth.currentUser.email) {
+                    loginModal.classList.remove('hidden');
+                    return;
+                }
+
+                const title = requestTitleInput.value.trim();
+                const details = requestDetailsInput.value.trim();
+
+                if (!title) {
+                    movieRequestStatus.textContent = 'សូមបញ្ចូលឈ្មោះរឿង។';
+                    movieRequestStatus.className = 'text-xs text-center h-4 text-red-400';
+                    return;
+                }
+
+                movieRequestStatus.textContent = 'កំពុងផ្ញើ...';
+                movieRequestStatus.className = 'text-xs text-center h-4 text-slate-400';
+
+                try {
+                    await addDoc(collection(db, 'storyRequests'), {
+                        title,
+                        details,
+                        status: 'pending',
+                        requesterId: auth.currentUser.uid,
+                        requesterEmail: auth.currentUser.email,
+                        requesterName: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
+                        createdAt: serverTimestamp()
+                    });
+                    movieRequestStatus.textContent = 'បានស្នើសុំជោគជ័យ!';
+                    movieRequestStatus.className = 'text-xs text-center h-4 text-green-400';
+                    requestTitleInput.value = '';
+                    requestDetailsInput.value = '';
+                } catch (error) {
+                    console.error('Movie request failed:', error);
+                    movieRequestStatus.textContent = 'ស្នើសុំបរាជ័យ។ សូមព្យាយាមម្តងទៀត។';
+                    movieRequestStatus.className = 'text-xs text-center h-4 text-red-400';
+                }
+
+                setTimeout(() => {
+                    movieRequestStatus.textContent = '';
+                }, 4000);
+            });
+        }
+
+        closeSuccessModalBtn.addEventListener('click', () => successModal.classList.add('hidden'));
+        closeFundsModalBtn.addEventListener('click', () => fundsModal.classList.add('hidden'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStories();
+            listenForMovieRequests();
+        });
+    </script>
+
+    <!-- SECURITY / ANTI-INSPECT SCRIPTS -->
+    <script>
+        // Disable Right-click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable specific keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+I (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+            }
+        });
+
+        // Debugger Trap
+        setInterval(function() {
+            var start = performance.now();
+            debugger;
+            if (performance.now() - start > 100) {
+                document.body.innerHTML = "Inspector is open! Please close it to continue.";
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+

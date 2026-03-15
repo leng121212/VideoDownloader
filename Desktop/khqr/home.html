@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabek Prey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Kantumruy Pro', sans-serif; 
+            background-color: #0b192e; 
+            color: #ccd6f6;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .header {
+            background-color: #0b192e;
+        }
+        .hero-section {
+            background-color: #0b192e;
+        }
+        .btn-green {
+            background-color: #64ffda;
+            color: #000000 !important;
+        }
+        .btn-green * {
+            color: #000000 !important;
+        }
+        .btn-green:hover {
+            background-color: #52d3b4;
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: #64ffda;
+            border: 1px solid #64ffda;
+        }
+        .btn-outline:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+        .card {
+            background-color: #112240;
+            border: 1px solid #233554;
+        }
+        .footer {
+            background-color: #0a192f;
+        }
+        .telegram-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background-color: #2AABEE;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        .telegram-fab:hover {
+            transform: scale(1.1);
+        }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); }
+        .modal-content { background-color: #112240; }
+        .input-field { background-color: #0a192f; border-color: #233554; }
+        .sidenav {
+            transition: transform 0.3s ease-in-out;
+        }
+        .pricing-tier-item input[type="radio"]:checked + label {
+            border-color: #64ffda;
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+        .line-clamp-1 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+        .line-clamp-3 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            display: inline-block;
+            background-color: #22c55e;
+        }
+        .checkmark-circle::after {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 15px;
+            width: 20px;
+            height: 40px;
+            border: solid white;
+            border-width: 0 8px 8px 0;
+            transform: rotate(45deg);
+        }
+         #notification-banner {
+            transition: all 0.5s ease-in-out;
+        }
+        .btn-style {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+        .btn-style:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            transform: translateY(-1px);
+        }
+        .nav-button-animated {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          overflow: hidden;
+          border: 2px solid #64ffda;
+          border-radius: 9999px;
+          color: #ccd6f6;
+          font-weight: 600;
+          text-decoration: none;
+          transition: color 0.7s ease;
+        }
+        .nav-button-animated::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          left: -100%;
+          aspect-ratio: 1 / 1;
+          background-color: #64ffda;
+          border-radius: 50%;
+          transition: all 0.7s ease;
+          z-index: -1;
+        }
+        .nav-button-animated:hover::before {
+          left: 0;
+          transform: scale(1.5);
+        }
+        .nav-button-animated:hover {
+          color: #0a192f;
+        }
+        .nav-button-animated svg {
+          width: 1.25rem;
+          height: 1.25rem;
+          transition: transform 0.3s ease;
+        }
+                .nav-button-animated:hover svg {
+                    transform: rotate(90deg);
+                }
+                .nav-button-animated svg path {
+                    fill: #ccd6f6;
+                    transition: fill 0.7s ease;
+                }
+                .nav-button-animated:hover svg path {
+                    fill: #0a192f;
+                }
+                .wrapper {
+                    display: inline-flex;
+                    list-style: none;
+                }
+                .wrapper .icon {
+                    position: relative;
+                    background: #eef3f8;
+                    border-radius: 50%;
+                    margin: 5px;
+                    width: 40px;
+                    height: 40px;
+                    font-size: 16px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                }
+                .wrapper .tooltip {
+                    position: absolute;
+                    top: 0;
+                    font-size: 12px;
+                    background: #fff;
+                    color: #fff;
+                    padding: 4px 7px;
+                    border-radius: 5px;
+                    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                }
+        .wrapper .tooltip::before {
+          position: absolute;
+          content: "";
+          height: 8px;
+          width: 8px;
+          background: #fff;
+          bottom: -3px;
+          left: 50%;
+          transform: translate(-50%) rotate(45deg);
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        .wrapper .icon:hover .tooltip {
+          top: -38px;
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+        .wrapper .icon:hover span,
+        .wrapper .icon:hover .tooltip {
+          text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+        }
+        .wrapper .facebook:hover,
+        .wrapper .facebook:hover .tooltip,
+        .wrapper .facebook:hover .tooltip::before {
+          background: #1877f2;
+          color: #fff;
+        }
+        .wrapper .icon:hover, .wrapper .icon:hover i { color: #fff; }
+        .wrapper .youtube:hover,
+        .wrapper .youtube:hover .tooltip,
+        .wrapper .youtube:hover .tooltip::before {
+          background: #FF0000;
+          color: #fff;
+        }
+        .wrapper .tiktok:hover,
+        .wrapper .tiktok:hover .tooltip,
+        .wrapper .tiktok:hover .tooltip::before {
+          background: #010101;
+          color: #fff;
+        }
+        /* New Sidebar Styles */
+        .sidebar-link-item {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-link-item:hover {
+            background-color: #172a45;
+            border-left-color: #64ffda;
+            color: #64ffda;
+        }
+        .sidebar-link-item.active {
+            background-color: #172a45;
+            border-left-color: #64ffda;
+            color: #64ffda;
+            font-weight: 600;
+        }
+        /* Default item style */
+        .pro-app-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .pro-app-item:hover {
+             background-color: #172a45;
+        }
+        .pro-app-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border-radius: 4px;
+            color: white; 
+        }
+        .pro-app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* Dropdown specific styles */
+        .pro-app-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            padding-left: 0.5rem; 
+        }
+        .pro-app-container.open {
+            max-height: 600px; 
+        }
+        /* Sticky Sidebar Fix */
+        #persistent-sidebar {
+            width: 20rem; 
+            height: calc(100vh - 104px); 
+            top: 104px; 
+            overflow-y: auto;
+            position: sticky;
+            flex-shrink: 0; 
+        }
+        @media (min-width: 1024px) {
+            .lg\:w-72 {
+                width: 20rem;
+            }
+        }
+        
+        /* General Dropdown Item Styles */
+        .pro-item-container, .sound-item-container {
+             /* Wrapper for clickable toggle and dropdown content */
+             margin-bottom: 0.25rem;
+             transition: all 0.3s ease-in-out;
+        }
+
+        .pro-item-toggle, .sound-item-toggle {
+             /* Clickable area - inherits pro-app-item padding/hover/cursor */
+             display: flex;
+             align-items: center;
+             gap: 12px;
+        }
+
+        /* Detail Content Styling (Applies to both Pro and Sound) */
+        .pro-detail-content, .sound-detail-content {
+            /* The actual dropdown content */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+            opacity: 0;
+            padding: 0 16px; /* Match horizontal padding of the toggle */
+        }
+        .pro-detail-content.show, .sound-detail-content.show {
+            max-height: 300px; 
+            opacity: 1;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        
+        /* Ensure inner items stack correctly in the detail view */
+        .pro-detail-content .detail-box, .sound-detail-content .detail-box {
+            background-color: #0a192f;
+            border-radius: 6px;
+            padding: 8px;
+            border-left: 3px solid #64ffda;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header sticky top-0 z-40 border-b border-slate-800/50">
+        <div class="container mx-auto px-6 py-2 flex justify-between items-center">
+             <div class="flex items-center">
+                <a href="home.html" class="flex-shrink-0">
+                    <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-20 h-20 rounded-full border-2 border-cyan-400 object-cover">
+                </a>
+                <div class="ml-4">
+                    <h1 class="text-4xl font-bold text-slate-100">Trabek Prey</h1>
+                    <ul class="wrapper -mt-2 -ml-2">
+                      <a href="https://web.facebook.com/profile.php?id=100068154814209" target="_blank" class="icon facebook">
+                        <span class="tooltip">Facebook</span>
+                        <span><i class="fab fa-facebook-f"></i></span>
+                      </a>
+                      <a href="https://youtube.com/@trabek_prey?si=D3VrDutio04tovOj" target="_blank" class="icon youtube">
+                        <span class="tooltip">YouTube</span>
+                        <span><i class="fab fa-youtube"></i></span>
+                      </a>
+                      <a href="https://www.tiktok.com/@_.trabekprey?_t=ZS-8zVgZGpt0iq&_r=1" target="_blank" class="icon tiktok">
+                        <span class="tooltip">TikTok</span>
+                        <span><i class="fab fa-tiktok"></i></span>
+                      </a>
+                    </ul>
+                </div>
+            </div>
+            <nav class="hidden md:flex items-center space-x-2">
+                <a href="home.html" class="nav-button-animated">
+                    <span>ទំព័រដើម</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="#products" class="nav-button-animated">
+                    <span>Tool ទាំងអស់</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="dashboard.html" class="nav-button-animated">
+                    <span>Tools បានទិញ</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="#about" class="nav-button-animated">
+                    <span>អំពីយើង</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <a href="#contact" class="nav-button-animated">
+                    <span>Contact</span>
+                    <svg viewBox="0 0 16 19" xmlns="http://www.w3.org/2000/svg"><path d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"></path></svg>
+                </a>
+                <div class="flex items-center space-x-4 pl-4">
+                    <a href="bank.html" id="user-balance-header" class="hidden items-center space-x-2 text-cyan-400 text-sm hover:text-green-400 transition-colors">
+                        <i class="fas fa-wallet"></i>
+                        <span id="balance-amount" class="font-semibold"></span>
+                    </a>
+                    <a href="bank.html" id="header-user-info" class="hidden items-center gap-2 cursor-pointer group">
+                        <div class="text-right">
+                           <div id="header-user-name" class="text-sm font-semibold text-slate-200 truncate max-w-[100px] group-hover:text-cyan-400 transition-colors"></div>
+                           <div class="flex items-center justify-end gap-2">
+                                <span id="header-notification-badge" class="hidden bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full"></span>
+                                <div id="header-user-email" class="text-xs text-slate-400 truncate max-w-[100px] group-hover:text-cyan-400 transition-colors"></div>
+                           </div>
+                       </div>
+                       <img id="header-user-avatar" src="https://w1.pngwing.com/pngs/743/500/png-transparent-circle-silhouette-logo-user-user-profile-green-facial-expression-nose-cartoon.png" alt="User Avatar" class="w-9 h-9 rounded-full border-2 border-slate-700 group-hover:border-cyan-400 transition-colors object-cover flex-shrink-0">
+                   </a>
+                    <button id="login-logout-btn" class="btn-outline font-bold py-1 px-4 text-sm rounded-md transition-colors"></button>
+                </div>
+            </nav>
+            <button id="mobile-menu-btn" class="text-2xl md:hidden text-slate-300">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Mobile Side Nav (Existing) -->
+    <div id="sidenav-overlay" class="hidden fixed inset-0 bg-black/60 z-40"></div>
+    <div id="side-nav" class="sidenav fixed top-0 left-0 h-full w-72 bg-[#112240] shadow-xl z-50 transform -translate-x-full p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-xl font-bold text-slate-100">Menu</h2>
+            <button id="close-sidenav-btn" class="text-2xl text-slate-400 hover:text-white">&times;</button>
+        </div>
+        <nav class="flex flex-col space-y-2 text-slate-300">
+            <a href="home.html" class="flex items-center gap-4 p-3 rounded-md hover:bg-slate-700 transition-colors"><i class="fas fa-home w-5"></i> Home</a>
+            <a href="dashboard.html" class="flex items-center gap-4 p-3 rounded-md hover:bg-slate-700 transition-colors"><i class="fas fa-tachometer-alt w-5"></i> Dashboard</a>
+            <a href="#products" class="flex items-center gap-4 p-3 rounded-md hover:bg-slate-700 transition-colors"><i class="fas fa-shopping-cart w-5"></i> Products</a>
+            <a href="bank.html" class="flex items-center gap-4 p-3 rounded-md hover:bg-slate-700 transition-colors"><i class="fas fa-plus-circle w-5"></i> Add Balance</a>
+        </nav>
+        
+        <div id="sidenav-user-info" class="hidden mt-auto pt-6 border-t border-slate-700">
+             <div class="bg-slate-800/50 p-3 rounded-md text-center mb-4">
+                <a href="bank.html" class="text-lg font-bold text-green-400 hover:text-cyan-400" id="sidenav-balance">$0.00</a>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <img id="sidenav-user-avatar" src="" alt="User Avatar" class="w-10 h-10 rounded-full object-cover flex-shrink-0">
+                    <div id="sidenav-user-initial" class="w-10 h-10 bg-cyan-900/50 text-cyan-400 font-bold rounded-full flex items-center justify-center flex-shrink-0"></div>
+                    <div class="flex-grow overflow-hidden">
+                        <div id="sidenav-user-name" class="text-sm font-semibold text-slate-200 truncate"></div>
+                        <div id="sidenav-user-email" class="text-xs text-slate-400 truncate"></div>
+                    </div>
+                </div>
+                <button id="sidenav-logout-btn" class="text-red-400 hover:text-red-300 text-xl"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+        <div id="sidenav-login-prompt" class="mt-auto pt-6 border-t border-slate-700">
+            <button id="sidenav-login-btn" class="w-full btn-green font-bold py-2 px-4 rounded-md">Login</button>
+        </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="flex flex-grow"> 
+        
+        <!-- Persistent Sidebar (Desktop/Large Screens Only) -->
+        <aside id="persistent-sidebar" class="hidden lg:block lg:w-80 bg-[#112240] border-r border-slate-800 flex-shrink-0 p-4 sticky top-[104px] h-[calc(100vh-104px)] overflow-y-auto">
+             <div class="pt-4">
+                <nav class="space-y-2 mb-6">
+                    <a href="#products" class="sidebar-link-item flex items-center gap-4 px-4 py-3 rounded-md active">
+                        <i class="fas fa-cubes w-5"></i> 
+                        <span class="font-semibold">១. Tools ទាំងអស់</span>
+                    </a>
+                    <a href="dashboard.html" class="sidebar-link-item flex items-center gap-4 px-4 py-3 rounded-md">
+                        <i class="fas fa-box-open w-5"></i>
+                        <span class="font-semibold">២. Tools បានទិញ</span>
+                    </a>
+                </nav>
+
+                <div class="pt-4 border-t border-slate-700/50">
+                    
+                    <!-- ៣. Dropdown Menu for Pro Accounts -->
+                    <button id="pro-apps-toggle" 
+                            class="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-cyan-400 hover:bg-[#172a45] rounded-md transition-colors" 
+                            aria-expanded="false" 
+                            aria-controls="pro-apps-list">
+                        <i class="fas fa-crown w-5 mr-2"></i>
+                        <span>៣. ទិញ Account Pro</span>
+                        <i id="pro-apps-icon" class="fas fa-chevron-right transition-transform duration-300 text-sm ml-auto"></i>
+                    </button>
+
+                    <div id="pro-apps-list" class="pro-app-container pt-2">
+                        
+                        <!-- Capcut Pro -->
+                        <div class="pro-item-container" data-name="Capcut Pro">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://freelogopng.com/images/all_img/1664284836cap-cut-logo-png.png" alt="Capcut Pro Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Capcut Pro</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Express Vpn -->
+                        <div class="pro-item-container" data-name="Express Vpn">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://img.icons8.com/?size=100&id=EYvWm4GHpQwc&format=png&color=000000" alt="Express Vpn Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Express Vpn</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- ChatGPT Pro -->
+                        <div class="pro-item-container" data-name="ChatGPT Pro">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/512px-ChatGPT_logo.svg.png?20230903231118" alt="ChatGPT Pro Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">ChatGPT Pro</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Surfshark Vpn -->
+                        <div class="pro-item-container" data-name="Surfshark Vpn">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://image.pngaaa.com/13/5735013-middle.png" alt="Surfshark Vpn Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Surfshark Vpn</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Gemini Pro -->
+                        <div class="pro-item-container" data-name="Gemini Pro">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://img.icons8.com/color/512/gemini-ai.png" alt="Gemini Pro Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Gemini Pro</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Google Ultra -->
+                        <div class="pro-item-container" data-name="Google Ultra">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://img.icons8.com/?size=100&id=17949&format=png&color=000000" alt="Google Ultra Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Google Ultra</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Canva Pro -->
+                         <div class="pro-item-container" data-name="Canva Pro">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon">
+                                    <img src="https://img.icons8.com/?size=100&id=lAWjO4LexGga&format=png&color=000000" alt="Canva Pro Logo" class="w-full h-full object-contain">
+                                </div>
+                                <span class="text-slate-300">Canva Pro</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Youku Pro -->
+                        <div class="pro-item-container" data-name="Youku Pro">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #f7b300;">
+                                    <i class="fas fa-tv text-black"></i>
+                                </div>
+                                <span class="text-slate-300">Youku Pro</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- YouTube Premium -->
+                        <div class="pro-item-container" data-name="YouTube Premium">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #ff0000;">
+                                    <i class="fab fa-youtube text-white"></i>
+                                </div>
+                                <span class="text-slate-300">YouTube Premium</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Netflix -->
+                        <div class="pro-item-container" data-name="Netflix">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <span class="pro-app-icon font-extrabold text-white text-lg flex items-center justify-center" style="background-color: #e50914;">N</span>
+                                <span class="text-slate-300">Netflix</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Window Key -->
+                        <div class="pro-item-container" data-name="Window Key">
+                            <div class="pro-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #0078d4;">
+                                    <i class="fas fa-key text-white"></i>
+                                </div>
+                                <span class="text-slate-300">Window Key</span>
+                            </div>
+                            <div class="pro-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NEW Background Sound Section -->
+                <div class="pt-4 border-t border-slate-700/50 mt-4">
+                    <button id="sound-apps-toggle" 
+                            class="flex items-center justify-between w-full px-4 py-3 text-base font-bold text-cyan-400 hover:bg-[#172a45] rounded-md transition-colors" 
+                            aria-expanded="false" 
+                            aria-controls="sound-apps-list">
+                        <i class="fas fa-music w-5 mr-2"></i>
+                        <span>៤. ទិញ Background Sound</span>
+                        <i id="sound-apps-icon" class="fas fa-chevron-right transition-transform duration-300 text-sm ml-auto"></i>
+                    </button>
+
+                    <!-- Removed space-y-1 class from parent here -->
+                    <div id="sound-apps-list" class="pro-app-container pt-2">
+                        
+                        <!-- Sad -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #64ffda;">
+                                    <i class="fas fa-sad-tear text-black"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Sad(កើតទុក្ខ)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Happy -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #fca5a5;">
+                                    <i class="fas fa-grin-hearts text-black"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Happy(រីករាយ)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Vlog -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #1d4ed8;">
+                                    <i class="fas fa-video text-white"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Vlog(កំសាន្ត)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Scary -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #a78bfa;">
+                                    <i class="fas fa-ghost text-black"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Scary(ភ័យខ្លាច)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Horror -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #dc2626;">
+                                    <i class="fas fa-skull text-white"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Horror(រន្ធត់)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Story -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #4ade80;">
+                                    <i class="fas fa-book-open text-white"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>Story(រឿង)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- EDM -->
+                        <div class="sound-item-container" data-price="1.50" data-duration="6 Sounds (Lifetime)">
+                            <div class="sound-item-toggle pro-app-item" role="button" tabindex="0">
+                                <div class="pro-app-icon flex items-center justify-center" style="background-color: #f97316;">
+                                    <i class="fas fa-compact-disc text-white"></i>
+                                </div>
+                                <span class="flex justify-between w-full">
+                                    <span>EDM(អារម្មណ៍)</span>
+                                    <span class="text-xs text-slate-400">$0.25/1សម្លេង</span>
+                                </span>
+                            </div>
+                            <div class="sound-detail-content bg-[#172a45] mx-4 rounded-b-lg mb-1">
+                                <!-- Content inserted by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content (Handles all page sections and scrolling) -->
+        <div class="flex-1 overflow-x-hidden">
+            <main class="container lg:max-w-7xl mx-auto px-6">
+                <section class="hero-section pt-20 sm:pt-28 pb-10 text-center">
+                     <div class="">
+                        <h1 class="text-3xl md:text-6xl font-bold text-blue-600">ស្វាគមន៍មកកាន់ Tools ត្របែកព្រៃ-Trabek Prey</h1>
+                    <div class="mt-4 space-y-6">
+                        <div class="md:flex md:justify-center md:items-center md:gap-4 max-w-2xl mx-auto flex-wrap">
+                            <p class="text-gray-400 md:text-xl font-bold mb-3 md:mb-0">សម្រាប់ការទិញ Tools ឬមានបញ្ហាអ្វីមួយ​ សូមទំនាក់ទំនងមកកាន់៖</p>
+                            <a href="https://t.me/Chhunleng1122" target="_blank" class="btn-style inline-flex items-center justify-center gap-1 px-2 py-1 rounded-full font-semibold text-white bg-[#2AABEE] hover:bg-sky-600 transition-all flex-shrink-0">
+                                <i class="fa-brands fa-telegram text-xl"></i>
+                                <span>Chhunleng</span>
+                            </a>
+                        </div>
+                        <div class="md:flex md:justify-center md:items-center md:gap-4 max-w-3xl mx-auto flex-wrap">
+                            <p class="text-gray-400 md:text-xl font-bold mb-3 md:mb-0">សម្រាប់ពត៍មានផ្សេងៗ​ សូមចូលទៅកាន់​៖</p>
+                             <a href="https://t.me/+iHc3zu2fGJ85YzU1" target="_blank" class="btn-style inline-flex items-center justify-center gap-1 px-2 py-1 rounded-full font-semibold text-white bg-[#2AABEE] hover:bg-sky-600 transition-all flex-shrink-0">
+                                <i class="fa-brands fa-telegram text-xl"></i>
+                                <span>ត្របែកព្រៃ-TrabekPrey</span>
+                            </a>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 md:text-xl font-bold mb-3">មានចម្ងល់ទាក់ទងនឹងការប្រើប្រាស់ Tools សូមចូលទៅកាន់៖</p>
+                            <div class="flex justify-center items-center space-x-4">
+                                <a href="https://youtube.com/@trabek_prey?si=D3VrDutio04tovOj" target="_blank" class="btn-style inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-white bg-[#FF0000] hover:bg-red-700 transition-all">
+                                    <i class="fa-brands fa-youtube text-xl"></i>
+                                    <span>YouTube</span>
+                                </a>
+                                <a href="https://web.facebook.com/profile.php?id=100068154814209" target="_blank" class="btn-style inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-white bg-[#1877F2] hover:bg-blue-700 transition-all">
+                                    <i class="fa-brands fa-facebook text-xl"></i>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="https://www.tiktok.com/@_.trabekprey?_t=ZS-8zVgZGpt0iq&_r=1" target="_blank" class="btn-style inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-white bg-[#010101] hover:bg-gray-800 transition-all">
+                                    <i class="fa-brands fa-tiktok text-xl"></i>
+                                    <span>Tik Tok</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </section>
+                <section id="products" class="py-16">
+                     <div class="">
+                        <div class="text-center">
+                            <h2 class="text-3xl font-bold text-slate-100">Tools+Ai ទាំងអស់នៅទីនេះ</h2>
+                            <p class="text-slate-400 mt-2 mb-12​ ">ជ្រើសរើស​ Tools+Ai ណាមួយដែលអ្នកពេញចិត្ត​ ដើម្បីទិញយកទៅប្រើប្រាស់.</p>
+                        </div>
+                        <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start"></div>
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold text-slate-100 mb-4">Tools LifeTime</h3>
+                            <div id="highlight-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 items-start"></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="stories" class="py-16 bg-[#0b192e]">
+                     <div class="">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div class="text-center sm:text-left">
+                                <h2 class="text-3xl font-bold text-slate-100">រឿងល្បីៗ សម្រាប់យកមកសម្រាយ</h2>
+                                <p class="text-slate-400 mt-2">ជ្រើសរើសរឿងដែលអ្នកពេញចិត្តសម្រាប់យកមកសម្រាយ។</p>
+                            </div>
+                            <div class="text-center sm:text-right">
+                                <a href="movie.html" class="btn-outline font-bold py-2 px-4 text-sm rounded-md transition-colors inline-flex items-center justify-center">មើលរឿងទាំងអស់</a>
+                            </div>
+                        </div>
+                        <div id="story-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-start"></div>
+                    </div>
+                </section>
+            </main>
+            <footer id="contact" class="footer pt-16 pb-8">
+                <div class="container mx-auto px-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                        <div>
+                            <div class="flex items-center justify-center md:justify-start space-x-3 mb-4">
+                                 <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover">
+                                 <h1 class="text-xl font-bold text-slate-100">Trabek Prey</h1>
+                            </div>
+                            <p class="mb-2">រីករាយជាមួយការប្រើប្រាស់ Tools នៅទីនេះជាមួយតម្លៃសមរម្យ</p>
+                            <p>Copyright ©️ ត្របែកព្រៃ-Trabek Prey | Made by ត្របែកព្រៃ-Trabek Prey</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-100 mb-4">Quick Links</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><a href="#products" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-shopping-cart w-4"></i> Products</a></li>
+                                <li><a href="dashboard.html" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-receipt w-4"></i> Orders</a></li>
+                                <li><a href="bank.html" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-plus-circle w-4"></i> Add Balance</a></li>
+                            </ul>
+                        </div>
+                         <div>
+                            <h3 class="font-bold text-slate-100 mb-4">Contact & Follow</h3>
+                            <ul class="space-y-2 text-sm">
+                                 <li><a href="mailto:support@anajak.ai" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fas fa-envelope w-4"></i> tongchhunleng321@gmail.com</a></li>
+                                 <li><a href="https://t.me/Chhunleng1122" target="_blank" class="text-slate-400 hover:text-cyan-400 flex items-center justify-center md:justify-start gap-2"><i class="fab fa-telegram w-4"></i> Telegram Channel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-800 mt-8 pt-6 text-center text-sm text-slate-500">
+                        <p>© 2025 Trabek Prey. All rights reserved. Secure Digital Product Marketplace.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+    <div id="modal-container">
+        <!-- Popup Announcements Modal -->
+        <div id="popup-announcements-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-3xl p-6 rounded-lg shadow-2xl border border-slate-700 relative">
+                <button id="close-popup-announcements-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-100 mb-4">ការជូនដំណឹង</h2>
+                <div id="popup-announcements-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto"></div>
+            </div>
+        </div>
+        <!-- Story Preview Modal -->
+        <div id="story-preview-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-5xl p-4 rounded-lg shadow-2xl border border-slate-700 relative">
+                <button id="close-story-preview-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <div class="aspect-video bg-slate-900 rounded-md overflow-hidden">
+                    <iframe id="story-preview-iframe" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <!-- Story Purchase Confirm Modal -->
+        <div id="story-purchase-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-6 rounded-lg shadow-2xl border border-slate-700 text-center relative">
+                <button id="close-story-purchase-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <h2 class="text-xl font-bold text-slate-100 mb-3">បញ្ជាក់ការទិញ</h2>
+                <p id="story-purchase-confirm-text" class="text-sm text-slate-300 mb-6"></p>
+                <div class="flex gap-4">
+                    <button id="cancel-story-purchase-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បោះបង់</button>
+                    <button id="confirm-story-purchase-btn" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors">ទិញ</button>
+                </div>
+            </div>
+        </div>
+        <!-- Story Download Modal -->
+        <div id="story-download-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-6 rounded-lg shadow-2xl border border-slate-700 text-center">
+                <h2 class="text-xl font-bold text-slate-100 mb-3">ការទិញបានជោគជ័យ</h2>
+                <p class="text-sm text-slate-300 mb-6">ឥឡូវអ្នកអាចទាញយករឿងបានហើយ។</p>
+                <div class="flex gap-4">
+                    <button id="close-story-download-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បិទ</button>
+                    <a id="story-download-link" href="#" target="_blank" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">ទាញយករឿង</a>
+                </div>
+            </div>
+        </div>
+        <!-- Login Modal (Existing) -->
+        <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-8 rounded-lg shadow-2xl border border-slate-700 relative">
+                <button id="close-login-modal-btn" class="absolute top-2 right-3 text-2xl text-slate-400 hover:text-white">&times;</button>
+                <div class="text-center mb-6">
+                    <img src="https://yt3.ggpht.com/RLduaPr-NitOQsnWU_GjgylvUqpH7jJAGbKVBl467g0YlfxQczvZALeBhpGi3aFs6k64Xe7ujA=s108-c-k-c0x00ffffff-no-rj" alt="Trabek Prey Logo" class="w-20 h-20 rounded-full border-2 border-cyan-400 object-cover mx-auto">
+                </div>
+
+                <!-- Login View -->
+                <div id="login-view">
+                    <div class="text-2xl text-center font-bold text-slate-100 mb-6">ចូលគណនី</div>
+                    <form id="login-form">
+                        <div class="mb-4">
+                            <label for="login-email-modal" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="login-email-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="login-password-modal" class="block text-sm font-medium mb-2">Password</label>
+                            <input type="password" id="login-password-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div id="login-error-modal" class="text-red-400 text-sm mb-4 text-center h-5"></div>
+                        <button type="submit" class="w-full btn-green font-bold py-2 px-4 rounded-md transition-colors">Login</button>
+                    </form>
+                    <p class="text-center text-sm text-slate-400 mt-6">
+                        មិនទាន់មានគណនី? <a href="#" id="show-signup-link" class="font-semibold text-cyan-400 hover:underline">បង្កើតគណនី</a>
+                    </p>
+                </div>
+
+                <!-- Signup View -->
+                <div id="signup-view" class="hidden">
+                    <div class="text-2xl text-center font-bold text-slate-100 mb-6">បង្កើតគណនី</div>
+                    <form id="signup-form">
+                        <div class="mb-4">
+                            <label for="signup-name-modal" class="block text-sm font-medium mb-2">ឈ្មោះ</label>
+                            <input type="text" id="signup-name-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="signup-email-modal" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="signup-email-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="signup-password-modal" class="block text-sm font-medium mb-2">Password ( ចូរបង្កើត ៦ ខ្ទង់ឡើងទៅ )</label>
+                            <input type="password" id="signup-password-modal" class="w-full input-field rounded-md p-2" required>
+                        </div>
+                        <div id="signup-error-modal" class="text-red-400 text-sm mb-4 text-center h-5"></div>
+                        <button type="submit" class="w-full btn-green font-bold py-2 px-4 rounded-md transition-colors">Sign Up</button>
+                    </form>
+                    <p class="text-center text-sm text-slate-400 mt-6">
+                        មានគណនីរួចហើយ? <a href="#" id="show-login-link" class="font-semibold text-cyan-400 hover:underline">ចូលគណនី</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Purchase Success Modal (Existing) -->
+        <div id="purchase-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-md p-8 rounded-lg shadow-2xl border border-slate-700 text-center">
+                 <div class="mb-4 text-5xl text-green-400"><i class="fas fa-check-circle"></i></div>
+                 <h2 class="text-xl font-bold text-slate-100 mb-4">ការទិញបានជោគជ័យ</h2>
+                 <p class="text-slate-300 mb-8">អរគុណសម្រាប់ការទិញ Tools នេះ។ ឥឡូវអ្នកអាចប្រើប្រាស់វាបានហើយ។ <br>ចូលទៅកាន់ <a href="bank.html" class="text-cyan-400 hover:underline">Profile</a> > <a href="dashboard.html" class="text-cyan-400 hover:underline">Tools ដែលបានទិញ</a>។</p>
+                <div class="flex gap-4">
+                    <button id="close-success-modal-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បិទ</button>
+                    <a href="dashboard.html" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">ចូលប្រើប្រាស់</a>
+                </div>
+            </div>
+        </div>
+        <!-- Insufficient Funds Modal (Existing) -->
+        <div id="insufficient-funds-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
+            <div class="modal-content w-full max-w-sm p-8 rounded-lg shadow-2xl border border-red-500/50 text-center">
+                 <div class="mb-4 text-5xl text-red-400"><i class="fas fa-exclamation-triangle"></i></div>
+                 <h2 class="text-xl font-bold text-slate-100 mb-2">ទឹកប្រាក់មិនគ្រប់គ្រាន់</h2>
+                 <p class="text-sm text-slate-400 mb-6">កាបូបរបស់អ្នកមានទឹកប្រាក់មិនគ្រប់គ្រាន់សម្រាប់ទិញទំនិញនេះទេ។ សូមធ្វើការបញ្ចូលទឹកប្រាក់បន្ថែម។</p>
+                 <div class="flex gap-4">
+                     <button id="close-funds-modal-btn" class="w-1/2 bg-slate-600 hover:bg-slate-700 text-slate-200 font-bold py-2 px-4 rounded-md transition-colors">បោះបង់</button>
+                     <a href="bank.html" class="w-1/2 btn-green font-bold py-2 px-4 rounded-md transition-colors text-center flex items-center justify-center">បញ្ចូលទឹកប្រាក់</a>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Removed Sound Pop-up Container -->
+
+    <a href="https://t.me/Chhunleng1122" target="_blank" class="telegram-fab" aria-label="Contact on Telegram"><i class="fab fa-telegram-plane text-3xl"></i></a>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        // ធានាថា Persistence ត្រូវបានកំណត់នៅពេលចាប់ផ្តើម
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, initializeAuth, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        
+        import { getFirestore, doc, onSnapshot, collection, query, orderBy, getDoc, updateDoc, increment, addDoc, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBltRSApiTiafnF7LMWTx9Ct3bGa_D8YtE",
+            authDomain: "user-management-app-96124.firebaseapp.com",
+            projectId: "user-management-app-96124",
+            storageBucket: "user-management-app-96124.firebasestorage.app",
+            messagingSenderId: "43230371264",
+            appId: "1:43230371264:web:ae72b6528e8d64ff47bc25",
+            measurementId: "G-NE0TT29GBB"
+            };
+        const app = initializeApp(firebaseConfig);
+        // កំណត់ persistence ច្បាស់លាស់ដើម្បីរក្សា session នៅពេលផ្លាស់ប្តូរទំព័រ
+        const auth = initializeAuth(app, { persistence: indexedDBLocalPersistence });
+        
+        const db = getFirestore(app);
+
+        const productListDiv = document.getElementById('product-list');
+        const highlightListDiv = document.getElementById('highlight-list');
+        const storyListDiv = document.getElementById('story-list');
+        const loginModal = document.getElementById('login-modal');
+        const popupAnnouncementsModal = document.getElementById('popup-announcements-modal');
+        const popupAnnouncementsList = document.getElementById('popup-announcements-list');
+        const closePopupAnnouncementsBtn = document.getElementById('close-popup-announcements-btn');
+        const storyPreviewModal = document.getElementById('story-preview-modal');
+        const storyPreviewIframe = document.getElementById('story-preview-iframe');
+        const closeStoryPreviewBtn = document.getElementById('close-story-preview-btn');
+        const storyPurchaseConfirmModal = document.getElementById('story-purchase-confirm-modal');
+        const storyPurchaseConfirmText = document.getElementById('story-purchase-confirm-text');
+        const confirmStoryPurchaseBtn = document.getElementById('confirm-story-purchase-btn');
+        const cancelStoryPurchaseBtn = document.getElementById('cancel-story-purchase-btn');
+        const closeStoryPurchaseBtn = document.getElementById('close-story-purchase-btn');
+        const storyDownloadModal = document.getElementById('story-download-modal');
+        const storyDownloadLink = document.getElementById('story-download-link');
+        const closeStoryDownloadBtn = document.getElementById('close-story-download-btn');
+
+        let unsubscribeUser = null;
+        let productsCache = {};
+        let storiesCache = {};
+        let unsubscribeStories = null;
+        let unsubscribePopupAnnouncements = null;
+        let unsubscribeHighlights = null;
+        let pendingStoryPurchase = null;
+
+        function calculateExpiryDate(duration) {
+            if (!duration || duration.toLowerCase().includes('lifetime')) {
+                return null;
+            }
+            const now = new Date();
+            const durationStr = duration.toLowerCase();
+            const value = parseInt(durationStr) || 0;
+            if (durationStr.includes('day')) {
+                now.setDate(now.getDate() + value);
+                return now;
+            }
+            if (durationStr.includes('month')) {
+                now.setMonth(now.getMonth() + value);
+                return now;
+            }
+            if (durationStr.includes('year')) {
+                now.setFullYear(now.getFullYear() + value);
+                return now;
+            }
+            return null;
+        }
+
+        
+        const successModal = document.getElementById('purchase-success-modal');
+        const fundsModal = document.getElementById('insufficient-funds-modal');
+        const closeSuccessModalBtn = document.getElementById('close-success-modal-btn');
+        const closeFundsModalBtn = document.getElementById('close-funds-modal-btn');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sideNav = document.getElementById('side-nav');
+        const sidenavOverlay = document.getElementById('sidenav-overlay');
+        const closeSidenavBtn = document.getElementById('close-sidenav-btn');
+        const userBalanceHeader = document.getElementById('user-balance-header');
+        const balanceAmount = document.getElementById('balance-amount');
+        const loginLogoutBtn = document.getElementById('login-logout-btn');
+        
+        const headerUserInfo = document.getElementById('header-user-info');
+        const headerUserName = document.getElementById('header-user-name');
+        const headerUserEmail = document.getElementById('header-user-email');
+        const headerUserAvatar = document.getElementById('header-user-avatar');
+
+        const sidenavUserInfo = document.getElementById('sidenav-user-info');
+        const sidenavLoginPrompt = document.getElementById('sidenav-login-prompt');
+        const sidenavBalance = document.getElementById('sidenav-balance');
+        const sidenavUserInitial = document.getElementById('sidenav-user-initial');
+        const sidenavUserName = document.getElementById('sidenav-user-name');
+        const sidenavUserEmail = document.getElementById('sidenav-user-email');
+        const sidenavLogoutBtn = document.getElementById('sidenav-logout-btn');
+        const sidenavLoginBtn = document.getElementById('sidenav-login-btn');
+        const sidenavUserAvatar = document.getElementById('sidenav-user-avatar');
+        
+        // --- Auth Modal Logic ---
+        const closeLoginModalBtn = document.getElementById('close-login-modal-btn');
+
+        const loginView = document.getElementById('login-view');
+        const signupView = document.getElementById('signup-view');
+        const showSignupLink = document.getElementById('show-signup-link');
+        const showLoginLink = document.getElementById('show-login-link');
+
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const loginErrorModal = document.getElementById('login-error-modal');
+        const signupErrorModal = document.getElementById('signup-error-modal');
+
+        let unsubscribeProducts = null;
+
+        function loadProducts() {
+            if(unsubscribeProducts) unsubscribeProducts();
+
+            const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+            unsubscribeProducts = onSnapshot(q, (snapshot) => {
+                productListDiv.innerHTML = '';
+                productsCache = {};
+                if (snapshot.empty) {
+                     productListDiv.innerHTML = '<p class="text-center text-slate-400 col-span-full">There are no products available at the moment.</p>';
+                }
+                snapshot.forEach(doc => {
+                    const product = { id: doc.id, ...doc.data() };
+                    productsCache[product.id] = product;
+                    const productCard = createProductCard(product);
+                    productListDiv.appendChild(productCard);
+                });
+            }, (error) => {
+                console.error("Error fetching products: ", error);
+                productListDiv.innerHTML = '<p class="text-center text-red-400 col-span-full">Could not load products. Please check permissions.</p>';
+            });
+        }
+
+        function loadStories() {
+            if (!storyListDiv) return;
+            if (unsubscribeStories) unsubscribeStories();
+
+            const q = query(collection(db, "storySummaries"));
+            unsubscribeStories = onSnapshot(q, (snapshot) => {
+                storyListDiv.innerHTML = '';
+                storiesCache = {};
+                if (snapshot.empty) {
+                    storyListDiv.innerHTML = '<p class="text-center text-slate-400 col-span-full">ពេលនេះមិនទាន់មានរឿងនៅក្នុងបញ្ជីទេ។</p>';
+                    return;
+                }
+                const sortedStories = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => getStorySortMillis(b) - getStorySortMillis(a));
+
+                sortedStories.slice(0, 6).forEach(story => {
+                    storiesCache[story.id] = story;
+                    storyListDiv.appendChild(createStoryCard(story));
+                });
+            }, (error) => {
+                console.error("Error fetching stories: ", error);
+                storyListDiv.innerHTML = '<p class="text-center text-red-400 col-span-full">មិនអាចទាញយករឿងបានទេ។ សូមពិនិត្យសិទ្ធិ។</p>';
+            });
+        }
+
+        function loadHighlights() {
+            if (!highlightListDiv) return;
+            if (unsubscribeHighlights) unsubscribeHighlights();
+
+            const q = query(collection(db, "productHighlights"), orderBy("createdAt", "desc"));
+            unsubscribeHighlights = onSnapshot(q, (snapshot) => {
+                highlightListDiv.innerHTML = '';
+                if (snapshot.empty) {
+                    highlightListDiv.innerHTML = '<p class="text-center text-slate-400 col-span-full">ពេលនេះមិនទាន់មានផលិតផលពិសេសទេ។</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const item = { id: doc.id, ...doc.data() };
+                    highlightListDiv.appendChild(createHighlightCard(item));
+                });
+            }, (error) => {
+                console.error("Error fetching highlights: ", error);
+                highlightListDiv.innerHTML = '<p class="text-center text-red-400 col-span-full">មិនអាចទាញយកផលិតផលបានទេ។</p>';
+            });
+        }
+
+        function createHighlightCard(item) {
+            const card = document.createElement('div');
+            card.className = 'card rounded-lg overflow-hidden flex flex-col';
+            card.innerHTML = `
+                <div class="aspect-video bg-slate-800">
+                    <img src="${item.imageUrl || 'https://placehold.co/600x400/112240/64ffda?text=Product'}" alt="${item.title || 'Product'}" class="w-full h-full object-cover">
+                </div>
+                <div class="p-4 flex flex-col gap-2">
+                    <h4 class="font-semibold text-slate-100 text-sm">${item.title || 'Untitled'}</h4>
+                    <p class="text-xs text-slate-400">${item.description || ''}</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-cyan-400 font-bold text-sm">${item.priceText || ''} • ${item.durationText || 'LifeTime'}</span>
+                        <a href="https://t.me/Chhunleng1122" target="_blank" class="btn-outline font-bold py-1.5 px-3 text-xs rounded-md">ទិញ Tools</a>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function loadPopupAnnouncements() {
+            if (!popupAnnouncementsModal || !popupAnnouncementsList) return;
+            if (unsubscribePopupAnnouncements) unsubscribePopupAnnouncements();
+
+            const q = query(collection(db, "popupAnnouncements"), orderBy("createdAt", "desc"));
+            unsubscribePopupAnnouncements = onSnapshot(q, (snapshot) => {
+                const activeItems = [];
+                snapshot.forEach(doc => {
+                    const item = { id: doc.id, ...doc.data() };
+                    if (item.active !== false) {
+                        activeItems.push(item);
+                    }
+                });
+
+                popupAnnouncementsList.innerHTML = '';
+
+                if (activeItems.length === 0) {
+                    popupAnnouncementsModal.classList.add('hidden');
+                    return;
+                }
+
+                activeItems.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden';
+                    el.innerHTML = `
+                        <div class="aspect-video bg-slate-800">
+                            <img src="${item.imageUrl || 'https://placehold.co/600x400/112240/64ffda?text=Announcement'}" alt="${item.title || 'Announcement'}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <h3 class="text-base font-bold text-slate-100">${item.title || ''}</h3>
+                            ${item.linkUrl ? `<a href="${item.linkUrl}" target="_blank" class="btn-green font-bold py-2 px-3 text-sm rounded-md inline-flex items-center justify-center">ចូលមើល</a>` : ''}
+                        </div>
+                    `;
+                    popupAnnouncementsList.appendChild(el);
+                });
+
+                popupAnnouncementsModal.classList.remove('hidden');
+            }, (error) => {
+                console.error("Error fetching popup announcements: ", error);
+            });
+        }
+
+
+        onAuthStateChanged(auth, user => {
+            // ប្រើ user.email ដើម្បីត្រួតពិនិត្យថាជាអ្នកប្រើប្រាស់ពិតប្រាកដ (មិនមែនអនាមិក)
+            if (user && user.email) {
+                // អ្នកប្រើប្រាស់បានចូលគណនីត្រឹមត្រូវ
+                const userRef = doc(db, "users", user.uid);
+                
+                getDoc(userRef).then(userDoc => {
+                    if (!userDoc.exists()) {
+                        setDoc(userRef, {
+                            email: user.email,
+                            displayName: user.displayName || user.email.split('@')[0],
+                            photoURL: user.photoURL,
+                            balance: 0,
+                            createdAt: serverTimestamp()
+                        });
+                    }
+                });
+
+                loginLogoutBtn.textContent = 'Logout';
+                headerUserInfo.classList.remove('hidden');
+                headerUserInfo.classList.add('flex');
+                sidenavUserInfo.classList.remove('hidden');
+                sidenavLoginPrompt.classList.add('hidden');
+                
+                unsubscribeUser = onSnapshot(userRef, (doc) => {
+                    if (doc.exists()) {
+                        const userData = doc.data();
+                        const balance = (userData.balance || 0).toFixed(2);
+                        const displayName = userData.displayName || user.displayName || userData.email.split('@')[0];
+                        const userEmail = userData.email;
+                        const photoURL = userData.photoURL || user.photoURL;
+
+                        localStorage.setItem('userDisplayName', displayName);
+                        localStorage.setItem('userEmail', userEmail);
+                        if(photoURL) localStorage.setItem('userPhotoURL', photoURL);
+                        else localStorage.removeItem('userPhotoURL');
+
+                        balanceAmount.textContent = `$${balance}`;
+                        userBalanceHeader.classList.remove('hidden');
+                        userBalanceHeader.classList.add('flex');
+                        headerUserName.textContent = displayName;
+                        headerUserEmail.textContent = userEmail;
+                        if (photoURL) {
+                            headerUserAvatar.src = photoURL;
+                        }
+
+                        // Handle notification badge
+                        const badge = document.getElementById('header-notification-badge');
+                        const notification = userData.headerNotification;
+
+                        if (notification) {
+                            badge.textContent = notification;
+                            badge.classList.remove('hidden');
+                        } else {
+                            badge.classList.add('hidden');
+                        }
+
+
+                        sidenavBalance.textContent = `$${balance}`;
+                        sidenavUserName.textContent = displayName;
+                        sidenavUserEmail.textContent = userEmail;
+
+                        if (photoURL) {
+                            sidenavUserAvatar.src = photoURL;
+                            sidenavUserAvatar.classList.remove('hidden');
+                            sidenavUserInitial.classList.add('hidden');
+                        } else {
+                            sidenavUserInitial.textContent = displayName.charAt(0).toUpperCase();
+                            sidenavUserInitial.classList.remove('hidden');
+                            sidenavUserAvatar.classList.add('hidden');
+                        }
+                    }
+                });
+                loadProducts();
+            } else {
+                // អ្នកប្រើប្រាស់មិនបានចូលគណនី
+                localStorage.removeItem('userDisplayName');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userPhotoURL');
+
+                loginLogoutBtn.textContent = 'Login';
+                headerUserInfo.classList.add('hidden');
+                sidenavUserInfo.classList.add('hidden');
+                sidenavLoginPrompt.classList.remove('hidden');
+                userBalanceHeader.classList.add('hidden');
+                if (unsubscribeUser) unsubscribeUser();
+                
+                if(unsubscribeProducts) unsubscribeProducts();
+                loadProducts(); // Load products even when logged out
+            }
+        });
+
+        function updateUIFromLocalStorage() {
+            const displayName = localStorage.getItem('userDisplayName');
+            const userEmail = localStorage.getItem('userEmail');
+            const photoURL = localStorage.getItem('userPhotoURL');
+
+            if (displayName && userEmail) {
+                headerUserName.textContent = displayName;
+                headerUserEmail.textContent = userEmail;
+                if (photoURL) {
+                    headerUserAvatar.src = photoURL;
+                }
+                 headerUserInfo.classList.remove('hidden');
+                 headerUserInfo.classList.add('flex');
+
+                sidenavUserName.textContent = displayName;
+                sidenavUserEmail.textContent = userEmail;
+                 if (photoURL) {
+                    sidenavUserAvatar.src = photoURL;
+                    sidenavUserAvatar.classList.remove('hidden');
+                    sidenavUserInitial.classList.add('hidden');
+                } else {
+                    sidenavUserInitial.textContent = displayName.charAt(0).toUpperCase();
+                    sidenavUserInitial.classList.remove('hidden');
+                    sidenavUserAvatar.classList.add('hidden');
+                }
+                sidenavUserInfo.classList.remove('hidden');
+                sidenavLoginPrompt.classList.add('hidden');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+            loadStories();
+            loadHighlights();
+            loadPopupAnnouncements();
+        });
+
+        function handleLogout() { 
+            // ត្រូវសម្អាត local storage មុនពេលចុះឈ្មោះចេញ
+            localStorage.removeItem('userDisplayName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userPhotoURL');
+            signOut(auth); 
+            closeSideNav(); 
+        }
+        function handleLogin() { 
+            loginModal.classList.remove('hidden'); 
+            closeSideNav(); 
+        }
+        loginLogoutBtn.addEventListener('click', () => { auth.currentUser?.email ? handleLogout() : handleLogin(); });
+        sidenavLogoutBtn.addEventListener('click', handleLogout);
+        sidenavLoginBtn.addEventListener('click', handleLogin);
+
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginView.classList.add('hidden');
+            signupView.classList.remove('hidden');
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+        });
+
+
+        function closeLoginModal() { 
+            loginModal.classList.add('hidden');
+            loginForm.reset();
+            signupForm.reset();
+            loginErrorModal.textContent = '';
+            signupErrorModal.textContent = '';
+            // Reset to login view
+            signupView.classList.add('hidden');
+            loginView.classList.remove('hidden');
+        }
+
+        closeLoginModalBtn.addEventListener('click', closeLoginModal);
+        loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLoginModal(); });
+        if (closeStoryPreviewBtn) {
+            closeStoryPreviewBtn.addEventListener('click', () => {
+                storyPreviewIframe.src = '';
+                storyPreviewModal.classList.add('hidden');
+            });
+        }
+        if (cancelStoryPurchaseBtn) {
+            cancelStoryPurchaseBtn.addEventListener('click', () => {
+                storyPurchaseConfirmModal.classList.add('hidden');
+                pendingStoryPurchase = null;
+            });
+        }
+        if (closeStoryPurchaseBtn) {
+            closeStoryPurchaseBtn.addEventListener('click', () => {
+                storyPurchaseConfirmModal.classList.add('hidden');
+                pendingStoryPurchase = null;
+            });
+        }
+        if (closeStoryDownloadBtn) {
+            closeStoryDownloadBtn.addEventListener('click', () => {
+                storyDownloadModal.classList.add('hidden');
+                storyDownloadLink.href = '#';
+            });
+        }
+        if (closePopupAnnouncementsBtn) {
+            closePopupAnnouncementsBtn.addEventListener('click', () => popupAnnouncementsModal.classList.add('hidden'));
+        }
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginErrorModal.textContent = '';
+            try {
+                await signInWithEmailAndPassword(auth, loginForm['login-email-modal'].value, loginForm['login-password-modal'].value);
+                closeLoginModal();
+            } catch (error) {
+                loginErrorModal.textContent = 'បញ្ចូលខុសហើយ Email ឬ Password .';
+            }
+        });
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            signupErrorModal.textContent = '';
+            const name = signupForm['signup-name-modal'].value;
+            const email = signupForm['signup-email-modal'].value;
+            const password = signupForm['signup-password-modal'].value;
+
+            if (!name.trim()) {
+                signupErrorModal.textContent = 'សូមបញ្ចូលឈ្មោះរបស់អ្នក។';
+                return;
+            }
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(userCredential.user, {
+                    displayName: name
+                });
+                // onAuthStateChanged will handle creating the Firestore doc, now with the displayName
+                closeLoginModal();
+            } catch (error) {
+                if(error.code == 'auth/email-already-in-use') {
+                    signupErrorModal.textContent = 'អ្នកបានបង្កើត Gmail​ នេះរួចម្តងហើយ,មិនអាចបង្កើតបានទៀតទេ.';
+                } else if (error.code == 'auth/weak-password') {
+                     signupErrorModal.textContent = 'Password should be at least 6 characters.';
+                }
+                else {
+                    signupErrorModal.textContent = 'An error occurred during sign up.';
+                }
+            }
+        });
+        
+        function createProductCard(product) {
+            const productCard = document.createElement('div');
+            productCard.className = 'card rounded-lg overflow-hidden flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10';
+            productCard.dataset.productId = product.id;
+            
+            const defaultTier = product.pricing?.find(t => t.isDefault) || product.pricing?.[0];
+            const displayPrice = defaultTier ? `$${parseFloat(defaultTier.price).toFixed(2)}` : 'N/A';
+            
+            let tiersHTML = product.pricing?.map((tier, index) => {
+                const isChecked = tier.isDefault ? 'checked' : '';
+                return `
+                <div class="pricing-tier-item">
+                    <input type="radio" id="tier-${product.id}-${index}" name="tier-select-${product.id}" class="hidden" value="${tier.price}" data-duration="${tier.duration}" ${isChecked}>
+                    <label for="tier-${product.id}-${index}" class="flex justify-between items-center text-sm p-3 rounded-md border-2 border-slate-700 hover:border-cyan-400/50 cursor-pointer transition-colors">
+                        <span class="text-slate-400">${tier.duration}</span>
+                        <span class="font-semibold text-cyan-400">$${parseFloat(tier.price).toFixed(2)}</span>
+                    </label>
+                </div>`;
+            }).join('') || '';
+            
+            productCard.innerHTML = `
+                <div class="aspect-video bg-slate-800"><img src="${product.imageUrl || 'https://placehold.co/600x400/112240/64ffda?text=ANAKJAK+AI'}" alt="${product.name}" class="w-full h-full object-cover"></div>
+                <div class="p-5 flex-grow flex flex-col">
+                    <div class="flex-grow">
+                        <h3 class="font-bold text-lg text-slate-100 mb-1 line-clamp-1">${product.name}</h3>
+                        <p class="text-sm text-slate-300 mb-4 line-clamp-3">${product.description || '&nbsp;'}</p>
+                    </div>
+                    <div class="initial-view mt-auto pt-4 border-t border-slate-700/50 flex justify-between items-center">
+                         <p class="text-2xl font-bold text-cyan-400">${displayPrice}</p>
+                         <button class="buy-now-btn btn-outline font-bold py-2 px-4 text-sm rounded-md transition-colors">ទិញឥឡូវ</button>
+                    </div>
+                    <div class="pricing-view hidden mt-auto pt-4 border-t border-slate-700/50">
+                        <div class="space-y-2 mb-4">${tiersHTML}</div>
+                        <div class="flex gap-2">
+                            <button class="cancel-purchase-btn w-1/3 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 text-sm rounded-md transition-colors">បោះបង់</button>
+                            <button class="confirm-purchase-btn w-2/3 btn-green font-bold py-2 px-4 text-sm rounded-md transition-colors">យល់ព្រម</button>
+                        </div>
+                    </div>
+                </div>`;
+            return productCard;
+        }
+
+        function formatEpisodes(value) {
+            if (value === undefined || value === null || value === '') return 'មិនបានកំណត់';
+            if (typeof value === 'number') return `${value} ភាគ`;
+            const text = String(value).trim();
+            return text.length ? text : 'មិនបានកំណត់';
+        }
+
+        function toKhmerNumber(value) {
+            const map = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
+            return String(value).replace(/\d/g, (d) => map[parseInt(d, 10)]);
+        }
+
+        function formatRelativeTime(value) {
+            if (!value || !value.toDate) return '';
+            const now = Date.now();
+            const target = value.toDate().getTime();
+            const diffSeconds = Math.max(0, Math.floor((now - target) / 1000));
+
+            if (diffSeconds < 5) return 'មុននេះបន្តិច';
+
+            const units = [
+                { label: 'ឆ្នាំ', seconds: 31536000 },
+                { label: 'ខែ', seconds: 2592000 },
+                { label: 'ថ្ងៃ', seconds: 86400 },
+                { label: 'ម៉ោង', seconds: 3600 },
+                { label: 'នាទី', seconds: 60 },
+                { label: 'វិនាទី', seconds: 1 }
+            ];
+
+            for (const unit of units) {
+                if (diffSeconds >= unit.seconds) {
+                    const value = Math.floor(diffSeconds / unit.seconds);
+                    return `${toKhmerNumber(value)}${unit.label}មុន`;
+                }
+            }
+
+            return 'មុននេះបន្តិច';
+        }
+
+        function getStorySortMillis(story) {
+            return story.updatedAt?.toMillis?.() || story.createdAt?.toMillis?.() || 0;
+        }
+
+        function getStoryTime(story) {
+            return story.updatedAt || story.createdAt || null;
+        }
+
+        function createStoryCard(story) {
+            const storyCard = document.createElement('div');
+            storyCard.className = 'card rounded-lg overflow-hidden flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10 story-card';
+            storyCard.dataset.storyId = story.id;
+
+            const displayPrice = `$${parseFloat(story.price || 0).toFixed(2)}`;
+            const episodesText = formatEpisodes(story.episodes);
+            const createdDate = formatRelativeTime(getStoryTime(story));
+            const downloadCount = typeof story.downloadCount === 'number' ? story.downloadCount : 0;
+
+            storyCard.innerHTML = `
+                <div class="relative aspect-[3/4] bg-slate-800">
+                    <img src="${story.imageUrl || 'https://placehold.co/600x900/112240/64ffda?text=Story'}" alt="${story.title || 'Story'}" class="w-full h-full object-cover">
+                    <span class="absolute top-2 left-2 bg-blue-600/80 text-white text-xs font-semibold px-2 py-1 rounded-full">${episodesText}</span>
+                    ${createdDate ? `<span class="absolute top-2 right-2 bg-slate-900/70 text-white text-[10px] px-2 py-1 rounded-full">${createdDate}</span>` : ''}
+                    <span class="absolute bottom-2 right-2 bg-slate-900/70 text-white text-[10px] px-2 py-1 rounded-full">ទាញយក ${downloadCount}</span>
+                </div>
+                <div class="p-4 flex-grow flex flex-col">
+                    <h3 class="font-bold text-sm text-slate-100 mb-3 line-clamp-2">${story.title || 'Untitled Story'}</h3>
+                    <div class="mt-auto space-y-2">
+                        <a href="${story.previewUrl || '#'}" target="_blank" class="story-preview-btn w-full inline-flex items-center justify-center btn-outline font-bold py-2 px-3 text-xs rounded-md transition-colors">មើលរឿងសាកល្បង</a>
+                        <button class="story-buy-btn w-full btn-outline font-bold py-2 px-3 text-xs rounded-md transition-colors">ទិញរឿង ${displayPrice}</button>
+                    </div>
+                </div>`;
+
+            return storyCard;
+        }
+
+
+        productListDiv.addEventListener('click', async (e) => {
+            const target = e.target;
+            const card = target.closest('.card');
+            if (!card) return;
+
+            if (target.classList.contains('buy-now-btn')) {
+                card.querySelector('.initial-view').classList.add('hidden');
+                card.querySelector('.pricing-view').classList.remove('hidden');
+            }
+            if (target.classList.contains('cancel-purchase-btn')) {
+                card.querySelector('.initial-view').classList.remove('hidden');
+                card.querySelector('.pricing-view').classList.add('hidden');
+            }
+            if (target.classList.contains('confirm-purchase-btn')) {
+                if (!auth.currentUser || !auth.currentUser.email) { 
+                    loginModal.classList.remove('hidden'); 
+                    return; 
+                }
+                const selectedTierRadio = card.querySelector('input[type="radio"]:checked');
+                if (!selectedTierRadio) { 
+                    // NOTE: Changing window.alert to console.error and custom message
+                    console.error('Please select a pricing plan.'); 
+                    return; 
+                }
+
+                const price = parseFloat(selectedTierRadio.value);
+                const duration = selectedTierRadio.dataset.duration;
+                const productId = card.dataset.productId;
+                const productData = productsCache[productId];
+
+                target.disabled = true;
+                target.textContent = 'Processing...';
+
+                try {
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    const userDoc = await getDoc(userRef);
+                    if (userDoc.data().balance >= price) {
+                        const expiresAt = calculateExpiryDate(duration);
+
+                        await updateDoc(userRef, { balance: increment(-price) });
+                        await addDoc(collection(db, "users", auth.currentUser.uid, "orders"), { 
+                            productId: productData.id,
+                            name: productData.name,
+                            price, 
+                            duration, 
+                            purchasedAt: serverTimestamp(),
+                            expiresAt: expiresAt,
+                            status: 'active'
+                        });
+                        await addDoc(collection(db, "purchaseNotifications"), {
+                            userEmail: auth.currentUser.email,
+                            productName: productData.name,
+                            price,
+                            duration,
+                            createdAt: serverTimestamp()
+                        });
+                        
+                        successModal.classList.remove('hidden');
+                    } else {
+                        fundsModal.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error(`Purchase failed: ${error.message}.`);
+                    // alert(`Purchase failed: ${error.message}.`);
+                } finally {
+                    target.disabled = false;
+                    target.textContent = 'Confirm';
+                }
+            }
+        });
+
+        if (storyListDiv) {
+            storyListDiv.addEventListener('click', async (e) => {
+                const previewBtn = e.target.closest('.story-preview-btn');
+                const buyBtn = e.target.closest('.story-buy-btn');
+                const card = e.target.closest('.story-card');
+                if (!card) return;
+
+                const storyId = card.dataset.storyId;
+                const storyData = storiesCache[storyId];
+                if (!storyData) return;
+
+                if (previewBtn) {
+                    e.preventDefault();
+                    if (storyData.previewUrl) {
+                        storyPreviewIframe.src = storyData.previewUrl;
+                        storyPreviewModal.classList.remove('hidden');
+                    }
+                    return;
+                }
+
+                if (buyBtn) {
+                    if (!auth.currentUser || !auth.currentUser.email) {
+                        loginModal.classList.remove('hidden');
+                        return;
+                    }
+
+                    pendingStoryPurchase = storyData;
+                    const displayPrice = parseFloat(storyData.price || 0).toFixed(2);
+                    storyPurchaseConfirmText.textContent = `តើអ្នកពិតជាចង់ទិញរឿង "${storyData.title || 'Untitled Story'}" ក្នុងតម្លៃ $${displayPrice} មែនទេ?`;
+                    storyPurchaseConfirmModal.classList.remove('hidden');
+                }
+            });
+        }
+
+        if (confirmStoryPurchaseBtn) {
+            confirmStoryPurchaseBtn.addEventListener('click', async () => {
+                if (!pendingStoryPurchase) {
+                    storyPurchaseConfirmModal.classList.add('hidden');
+                    return;
+                }
+
+                confirmStoryPurchaseBtn.disabled = true;
+                confirmStoryPurchaseBtn.textContent = 'Processing...';
+
+                try {
+                    const price = parseFloat(pendingStoryPurchase.price || 0);
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    const userDoc = await getDoc(userRef);
+                    const balance = userDoc.data()?.balance || 0;
+
+                    if (balance >= price) {
+                        await updateDoc(userRef, { balance: increment(-price) });
+                        await addDoc(collection(db, "users", auth.currentUser.uid, "storyOrders"), {
+                            storyId: pendingStoryPurchase.id,
+                            title: pendingStoryPurchase.title || 'Untitled Story',
+                            price,
+                            episodes: pendingStoryPurchase.episodes || '',
+                            previewUrl: pendingStoryPurchase.previewUrl || '',
+                            downloadUrl: pendingStoryPurchase.downloadUrl || '',
+                            purchasedAt: serverTimestamp()
+                        });
+
+                        storyPurchaseConfirmModal.classList.add('hidden');
+                        storyDownloadLink.href = pendingStoryPurchase.downloadUrl || '#';
+                        storyDownloadModal.classList.remove('hidden');
+                    } else {
+                        storyPurchaseConfirmModal.classList.add('hidden');
+                        fundsModal.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error(`Story purchase failed: ${error.message}.`);
+                } finally {
+                    confirmStoryPurchaseBtn.disabled = false;
+                    confirmStoryPurchaseBtn.textContent = 'ទិញ';
+                    pendingStoryPurchase = null;
+                }
+            });
+        }
+
+        closeSuccessModalBtn.addEventListener('click', () => successModal.classList.add('hidden'));
+        closeFundsModalBtn.addEventListener('click', () => fundsModal.classList.add('hidden'));
+        
+        function openSideNav() { sideNav.classList.remove('-translate-x-full'); sidenavOverlay.classList.remove('hidden'); }
+        function closeSideNav() { sideNav.classList.add('-translate-x-full'); sidenavOverlay.classList.add('hidden'); }
+        mobileMenuBtn.addEventListener('click', openSideNav);
+        closeSidenavBtn.addEventListener('click', closeSideNav);
+        sidenavOverlay.addEventListener('click', closeSideNav);
+
+        // --- Dropdown Toggles ---
+        const proAppsToggle = document.getElementById('pro-apps-toggle');
+        const proAppsList = document.getElementById('pro-apps-list');
+        const proAppsIcon = document.getElementById('pro-apps-icon');
+        
+        const soundAppsToggle = document.getElementById('sound-apps-toggle');
+        const soundAppsList = document.getElementById('sound-apps-list');
+        const soundAppsIcon = document.getElementById('sound-apps-icon');
+        
+        function setupDropdownToggle(toggleBtn, listDiv, iconDiv) {
+            if (toggleBtn && listDiv && iconDiv) {
+                iconDiv.classList.add('fa-chevron-right');
+                iconDiv.classList.remove('fa-chevron-down');
+                
+                toggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    
+                    const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+                    
+                    listDiv.classList.toggle('open', !isExpanded);
+                    toggleBtn.setAttribute('aria-expanded', !isExpanded);
+                    
+                    iconDiv.classList.toggle('fa-chevron-right', isExpanded);
+                    iconDiv.classList.toggle('fa-chevron-down', !isExpanded);
+                });
+            }
+        }
+
+        setupDropdownToggle(proAppsToggle, proAppsList, proAppsIcon);
+        setupDropdownToggle(soundAppsToggle, soundAppsList, soundAppsIcon);
+        
+        // --- Shared Logic for Details ---
+        
+        const proAccountDetails = {
+            "Capcut Pro": {
+                description: "Private Account (ប្រើប្រាស់លើ Gmail ផ្ទាល់ខ្លួន),មានការធានាជូនសម្រាប់ការប្រើប្រាស់",
+                tiers: [
+                    { duration: "១ខែ", price: 3.00 },
+                    { duration: "៣ខែ", price: 8.00 },
+                    { duration: "៧ខែ", price: 15.00 }
+                ]
+            },
+            "Express Vpn": {
+                description: "តម្លៃសមរម្យ សម្រាប់បងៗ MMO​ យកទៅបុក Share​​ ទៅបរទេស...។",
+                tiers: [
+                    { duration: "១ខែ", price: 1.50 },
+                    { duration: "៣ខែ", price: 4.00 }
+                ]
+            },
+            "ChatGPT Pro": {
+                description: "ប្រើ Gmail​ ផ្ទាល់ខ្លួន,មាន Sora ផលិតវីដេអូ AI​,បង្កើតរូមភាព&វីដេអូ...",
+                tiers: [
+                    { duration: "១ខែ", price: 4.50 }
+                ]
+            },
+            "Surfshark Vpn": {
+                description: "ផ្តល់ជូនការការពារឯកជនភាព និងសុវត្ថិភាពអ៊ីនធឺណិតខ្ពស់។ អាចប្រើបាននៅលើឧបករណ៍ច្រើនក្នុងពេលតែមួយ។",
+                tiers: [
+                    { duration: "៣ខែ", price: 4.00 },
+                    { duration: "២ឆ្នាំ​(sh)", price: 15.00 }
+                ]
+            },
+            "Gemini Pro": {
+                description: "អាច Generate Video Veo2,Veo3,ទទួលបានទំហំផ្ទុក 2TB,Upload file គ្មានដែនកំណត់",
+                tiers: [
+                    { duration: "១ឆ្នាំ", price: 12.00 }
+                ]
+            },
+            "Google Ultra": {
+                description: "អាច Generate Video Veo2,Veo3(Unlimited),ទទួលបានទំហំផ្ទុក 2TB,Upload file គ្មានដែនកំណត់",
+                tiers: [
+                    { duration: "១ខែ", price: 10.00 }
+                ]
+            },
+            "Canva Pro": {
+                description: "ដោះសោរមុខងារ Pro ទាំងអស់,ប្រើសម្រាប់​ឌីហ្សាញបានគ្រប់បែបយ៉ាង",
+                tiers: [
+                    { duration: "lifetime", price: 5.00 }
+                ]
+            },
+             "Youku Pro": {
+                description: "ដោះសោរមុខងារពិសេសៗរបស់ Youku ដើម្បីទស្សនាភាពយន្ត និងរឿងភាគចិនដោយគ្មានការផ្សាយពាណិជ្ជកម្ម និងគុណភាពខ្ពស់។",
+                tiers: [
+                    { duration: "១ខែ", price: 4.00 },
+                    { duration: "៣ខែ", price: 10.00 }
+                ]
+            },
+             "YouTube Premium": {
+                description: "ប្រើ​ Gmail​ ផ្ទាល់ខ្លួន,ទស្សនា YouTube ដោយគ្មានការផ្សាយពាណិជ្ជកម្ម,មាន Background​ Play,និង YT Music Premium។",
+                tiers: [
+                    { duration: "១ខែ", price: 1.50 }
+                ]
+            },
+             "Netflix": {
+                description: "គណនី Netflix Premium សម្រាប់ទស្សនាភាពយន្ត និងរឿងភាគល្បីៗលើពិភពលោកក្នុងគុណភាព 4K ។",
+                tiers: [
+                    { duration: "១ខែ", price: 3.00 }
+                ]
+            },
+             "Window Key": {
+                description: "ទទួលបាន Key ដើម (Original Key) សម្រាប់ធ្វើការ Activate ប្រព័ន្ធប្រតិបត្តិការ Windows របស់អ្នកអោយស្របច្បាប់ និងមានសុវត្ថិភាព។",
+                tiers: [
+                    { duration: "Lifetime", price: 8.00 }
+                ]
+            }
+        };
+
+        function generatePricingHtml(tiers) {
+            return tiers.map((tier, index) => `
+                <p class="text-sm">
+                    <span class="font-bold text-green-400 mr-2">-</span>
+                    <span class="font-semibold text-slate-300">$${tier.price.toFixed(2)}</span>
+                    <span class="text-slate-400">សម្រាប់ ${tier.duration}</span>
+                </p>
+            `).join('');
+        }
+
+        function closeAllProDetails() {
+            document.querySelectorAll('.pro-detail-content.show').forEach(content => {
+                content.classList.remove('show');
+            });
+        }
+        
+        // --- Pro Item Click Handler (Dropdown Logic) ---
+
+        if (proAppsList) {
+            proAppsList.addEventListener('click', (e) => {
+                const itemContainer = e.target.closest('.pro-item-container');
+                if (!itemContainer || !itemContainer.hasAttribute('data-name')) return; 
+
+                const toggleEl = e.target.closest('.pro-item-toggle'); 
+                if (!toggleEl) return;
+                
+                e.stopPropagation(); 
+
+                const accountName = itemContainer.dataset.name;
+                const detailData = proAccountDetails[accountName];
+                
+                if (!detailData) return;
+
+                const detailContent = itemContainer.querySelector('.pro-detail-content');
+                
+                const isCurrentlyOpen = detailContent.classList.contains('show');
+
+                closeAllProDetails(); 
+                closeAllSoundDetails(); // Also close sound details when opening pro details
+                
+                if (!isCurrentlyOpen) {
+                    
+                    const pricingHtml = generatePricingHtml(detailData.tiers);
+
+                    detailContent.innerHTML = `
+                        <div class="detail-box space-y-3">
+                            <p class="text-xs text-slate-300">
+                                មានលក់ Account: <span class="font-bold text-cyan-400">${accountName}</span> ${detailData.description}
+                            </p>
+                            <div>
+                                <p class="text-sm font-bold text-slate-200 mb-1">១. តម្លៃ ${accountName}</p>
+                                <div class="pl-2 space-y-1">
+                                    ${pricingHtml}
+                                </div>
+                            </div>
+                            <p class="text-sm font-bold text-cyan-400">
+                                ២. ទាក់ទងទិញតាម 
+                                <a href="https://t.me/Chhunleng1122" target="_blank" class="inline-flex items-center gap-1 text-white hover:text-cyan-300 transition-colors bg-[#2AABEE] px-2 py-0.5 rounded-full text-xs">
+                                    <i class="fab fa-telegram-plane"></i>
+                                    <span>Chhunleng</span>
+                                </a>
+                            </p>
+                        </div>
+                    `;
+                    
+                    detailContent.classList.add('show');
+                } 
+            });
+        }
+
+        // --- Sound Item Logic (Original - Renamed variables for consistency) ---
+
+        function closeAllSoundDetails() {
+            document.querySelectorAll('.sound-detail-content.show').forEach(content => {
+                content.classList.remove('show');
+            });
+        }
+        
+        if (soundAppsList) {
+            soundAppsList.addEventListener('click', (e) => {
+                const itemContainer = e.target.closest('.sound-item-container');
+                if (!itemContainer || !itemContainer.hasAttribute('data-price')) return; 
+
+                const toggleEl = e.target.closest('.sound-item-toggle'); 
+                if (!toggleEl) return;
+                
+                e.stopPropagation(); 
+
+                const detailContent = itemContainer.querySelector('.sound-detail-content');
+                
+                const isCurrentlyOpen = detailContent.classList.contains('show');
+
+                closeAllSoundDetails(); 
+                closeAllProDetails(); // Also close pro details when opening sound details
+                
+                if (!isCurrentlyOpen) {
+                    
+                    const categorySpan = itemContainer.querySelector('.sound-item-toggle span:last-child > span:first-child');
+                    const categoryText = categorySpan ? categorySpan.textContent.trim() : 'N/A';
+                    const price = itemContainer.dataset.price;
+                    const duration = itemContainer.dataset.duration;
+
+                    detailContent.innerHTML = `
+                        <div class="detail-box">
+                            <p class="text-xs text-slate-300 mb-3">
+                                <span class="font-bold text-cyan-400">${categoryText}</span> សម្រាប់ដាក់ជា Background Sound, ធានាជូនមិនជាប់ CopyRight ដែលអាចយកទៅផុសលើ
+                                <i class="fab fa-youtube text-red-500 mx-1"></i>
+                                <i class="fab fa-facebook text-blue-600 mx-1"></i>
+                                <i class="fab fa-tiktok text-black mx-1 bg-white rounded-full p-[1px]"></i>បានដោយគ្មានបញ្ហា។
+                            </p>
+                            <div class="space-y-1">
+                                <p class="text-sm font-bold text-green-400">១. តម្លៃ $${price} ទទួលបាន ${duration}</p>
+                                <p class="text-sm font-bold text-cyan-400">
+                                    ២. ទាក់ទងទិញតាម 
+                                    <a href="https://t.me/Chhunleng1122" target="_blank" class="inline-flex items-center gap-1 text-white hover:text-cyan-300 transition-colors bg-[#2AABEE] px-2 py-0.5 rounded-full text-xs">
+                                        <i class="fab fa-telegram-plane"></i>
+                                        <span>Chhunleng</span>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    detailContent.classList.add('show');
+                } 
+            });
+        }
+
+        // --- Global Click Handler for closing the dropdowns ---
+        document.addEventListener('click', (e) => {
+            // If the click target is NOT inside the entire persistent sidebar, close all details
+            if (!e.target.closest('#persistent-sidebar')) {
+                closeAllSoundDetails();
+                closeAllProDetails();
+            }
+        });
+        
+    </script>
+
+    <!-- SECURITY / ANTI-INSPECT SCRIPTS -->
+    <script>
+        // Disable Right-click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable specific keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+I (Inspect)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) {
+                e.preventDefault();
+            }
+            // Ctrl+S (Save Page)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
+                e.preventDefault();
+            }
+        });
+
+        // Debugger Trap
+        setInterval(function() {
+            var start = performance.now();
+            debugger;
+            if (performance.now() - start > 100) {
+                document.body.innerHTML = "Inspector is open! Please close it to continue.";
+                window.location.reload();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
