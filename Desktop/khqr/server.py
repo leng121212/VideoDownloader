@@ -9,7 +9,7 @@ CORS(app)  # Enable CORS for all domains
 
 # Initialize KHQR with Bakong Developer Token
 # Ideally, store this in an environment variable
-BAKONG_TOKEN = "rbkJSlqXv-ZAIDcmwSufaAufUQIjqzjPKllXJczuRTxxBE"
+BAKONG_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiYzc5MzBkZDNlNDE4NGQyMiJ9LCJpYXQiOjE3NzMyODEzMjcsImV4cCI6MTc4MTA1NzMyN30.LQsLZN0P-19UiFgpfMSKs45wN6VtmKEQyoTJiP3iliQ"
 khqr = KHQR(BAKONG_TOKEN)
 
 @app.route('/api/create-qr', methods=['POST'])
@@ -40,14 +40,12 @@ def create_qr():
         # Generate MD5
         md5 = khqr.generate_md5(qr_data)
         
-        # Generate QR Image as Base64
-        # Using format='base64_uri' returns complete data URI: "data:image/png;base64,..."
-        qr_image_base64 = khqr.qr_image(qr_data, format='base64_uri')
+        # We bypass image generation on the backend to prevent Render Free Tier from freezing (Memory limits)
+        # We will just return the pure qr_data and let the frontend draw the actual QR image.
         
         return jsonify({
             'qr_data': qr_data,
-            'md5': md5,
-            'qr_image': qr_image_base64
+            'md5': md5
         })
 
     except Exception as e:
