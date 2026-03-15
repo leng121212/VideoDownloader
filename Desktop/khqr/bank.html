@@ -8,7 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        body { font-family: 'Kantumruy Pro', sans-serif; background-color: #0b192e; color: #ccd6f6;}
+        /* Disable text selection and user interactions */
+        body { 
+            font-family: 'Kantumruy Pro', sans-serif; 
+            background-color: #0b192e; 
+            color: #ccd6f6;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
         .main-container { background-color: #0b192e; }
         .card { background-color: #172a45; }
         .input-field { background-color: #0a192f; border-color: #233554; }
@@ -1106,6 +1114,33 @@
                 saveProfileBtn.textContent = 'រក្សាទុកការផ្លាស់ប្តូរ';
             }
         });
+
+        // --- SECURITY / ANTI-INSPECT SCRIPTS ---
+        // Disable Right Click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Disable specific keyboard shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
+        document.addEventListener('keydown', (e) => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                (e.ctrlKey && e.shiftKey && e.key === 'C') || 
+                (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+                (e.ctrlKey && e.key === 'U')
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        // Debugger loop trap (causes devtools to pause constantly if opened)
+        setInterval(function() {
+            var start = performance.now();
+            debugger;
+            if (performance.now() - start > 100) {
+                // If the debugger triggered and caused a delay, we can reload or clear body
+                document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%;'>ការចូលមើលកូដត្រូវបានហាមឃាត់! (Access Denied)</h1>";
+            }
+        }, 1000);
 
     </script>
 </body>
