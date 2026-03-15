@@ -608,27 +608,30 @@
                 
                 async function checkPaymentStatus() {
                     try {
-                        const checkRes = await fetch('https://api-bakong.nbc.gov.kh/v1/check_transaction_by_md5', {
+                        const checkRes = await fetch('https://khqr-api-zfg9.onrender.com/api/check-payment', {
                             method: 'POST',
                             headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiYzc5MzBkZDNlNDE4NGQyMiJ9LCJpYXQiOjE3NzMyODEzMjcsImV4cCI6MTc4MTA1NzMyN30.LQsLZN0P-19UiFgpfMSKs45wN6VtmKEQyoTJiP3iliQ'
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({ md5: md5 })
                         });
                         
                         const checkData = await checkRes.json();
-                        console.log("Bakong API Response:", checkData); // Log for debugging
+                        console.log("Check API Response:", checkData); // Log for debugging
                         
-                        if (checkData.responseCode === 0) {
+                        if (checkData.status === "PAID") {
                             return true; // PAID
                         } else {
-                            if (refreshStatus) refreshStatus.textContent = checkData.responseMessage || "មិនទាន់ទទួលបានប្រាក់ទេ";
+                            if (refreshStatus && refreshStatus.textContent === "កំពុងពិនិត្យ...") {
+                                refreshStatus.textContent = "មិនទាន់ទទួលបានប្រាក់ទេ";
+                            }
                             return false; // UNPAID
                         }
                     } catch (err) {
                         console.error("Payment Check Error:", err);
-                        if (refreshStatus) refreshStatus.textContent = "មានបញ្ហាក្នុងការឆែកទិន្នន័យពីធនាគារ!";
+                        if (refreshStatus && refreshStatus.textContent === "កំពុងពិនិត្យ...") {
+                            refreshStatus.textContent = "មានបញ្ហារអាក់រអួលក្នុងការឆែក!";
+                        }
                         return false;
                     }
                 }
