@@ -27,6 +27,30 @@
             padding: 2px;
             box-shadow: 0 0 12px #64ffda;
         }
+        @keyframes glowing-border {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-border-wrapper {
+            position: relative;
+            padding: 5px;
+            border-radius: 12px;
+            background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+            background-size: 300% 300%;
+            animation: glowing-border 3s ease infinite;
+            display: inline-block;
+            margin: 0 auto 10px auto;
+        }
+        .animated-border-content {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .wrapper {
             display: inline-flex;
             list-style: none;
@@ -280,10 +304,6 @@
                 <div class="mb-6">
                     <label for="deposit-amount" class="block text-sm font-medium mb-1">ចំនួនទឹកប្រាក់ ($)</label>
                     <input type="number" id="deposit-amount" class="w-full input-field text-sm rounded-md p-3" required min="0" step="0.01" placeholder="បញ្ចូលចំនួនទឹកប្រាក់">
-                </div>
-                
-                <div class="bg-blue-900/30 text-blue-300 border border-blue-700/50 text-xs p-3 rounded-md mb-4">
-                    <strong>បញ្ជាក់:</strong> ពេលចុច "បញ្ចូលលុយ" វានឹងបើកផ្ទាំង Payway Pop-up។ សូមបង់ប្រាក់តាមរយៈ Payway ហើយរង់ចាំការបញ្ចូលលុយរបស់អ្នក។
                 </div>
                 
                 <div id="deposit-status" class="text-sm mb-3 text-center h-5 font-medium"></div>
@@ -577,15 +597,15 @@
                 // 2. Display QR Code in the modal
                 const qrContainer = document.createElement('div');
                 qrContainer.id = 'qr-container';
-                qrContainer.className = 'mt-4 text-center';
+                qrContainer.className = 'mt-4 text-center flex flex-col items-center';
                 qrContainer.innerHTML = `
-                    <div class="mb-3">
-                        <img src="https://yt3.ggpht.com/BbF5fS-zToCa_H-tMU6losu64hUrmO3AdTEX_1JufjHPp0QtM4HMsAf7YFnLdmaVtGTluoNsyHY0yeQ=s250-rw-nd-v1" alt="Supported Banks" class="mx-auto" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    <div class="animated-border-wrapper shadow-2xl">
+                        <div class="animated-border-content">
+                            <img src="https://yt3.ggpht.com/BbF5fS-zToCa_H-tMU6losu64hUrmO3AdTEX_1JufjHPp0QtM4HMsAf7YFnLdmaVtGTluoNsyHY0yeQ=s250-rw-nd-v1" alt="Supported Banks" class="mx-auto" style="width: 250px; height: auto;">
+                            <img src="${qr_image}" alt="KHQR Code" class="mx-auto" style="width: 250px; display: block;">
+                        </div>
                     </div>
-                    <div class="mb-2">
-                        <img src="${qr_image}" alt="KHQR Code" class="mx-auto border-2 border-slate-600 rounded-lg shadow-lg" style="max-width: 250px;">
-                    </div>
-                    <p class="text-slate-300">Scan ដើម្បីបង់ប្រាក់ $${amount.toFixed(2)}</p>
+                    <p class="text-slate-300 mt-3 font-medium">Scan ដើម្បីបង់ប្រាក់ $${amount.toFixed(2)}</p>
                     
                     <button type="button" id="manual-refresh-btn" class="mt-3 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-md text-sm font-medium transition-colors border border-slate-500">
                         <i class="fas fa-sync-alt mr-2"></i>ពិនិត្យការបង់ប្រាក់
