@@ -9,7 +9,7 @@ CORS(app)  # Enable CORS for all domains
 
 # Initialize KHQR with Bakong Developer Token
 # Ideally, store this in an environment variable
-BAKONG_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiYzc5MzBkZDNlNDE4NGQyMiJ9LCJpYXQiOjE3NzMyODEzMjcsImV4cCI6MTc4MTA1NzMyN30.LQsLZN0P-19UiFgpfMSKs45wN6VtmKEQyoTJiP3iliQ"
+BAKONG_TOKEN = "rbkJSlqXv-ZAIDcmwSufaAufUQIjqzjPKllXJczuRTxxBE"
 khqr = KHQR(BAKONG_TOKEN)
 
 @app.route('/api/create-qr', methods=['POST'])
