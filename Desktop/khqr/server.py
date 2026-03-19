@@ -45,8 +45,7 @@ def create_qr():
         
         return jsonify({
             'qr_data': qr_data,
-            'md5': md5,
-            'qr_image': khqr.qr_image(qr_data, format="base64_uri")
+            'md5': md5
         })
 
     except Exception as e:
