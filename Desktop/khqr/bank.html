@@ -599,8 +599,7 @@
                 const data = await response.json();
                 // We use pure qr_data to fetch the QR image instantly from a fast API
                 // This prevents Render backend from freezing!
-                const { qr_data, md5 } = data;
-                const qr_image = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qr_data)}`;
+const { qr_data, md5, qr_image } = data;
 
                 // 2. Display QR Code in the modal
                 const qrContainer = document.createElement('div');
