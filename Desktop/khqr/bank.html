@@ -586,21 +586,30 @@
             depositStatus.textContent = '';
             depositStatus.className = 'text-center mt-2 text-sm'; // Reset classes
 
+            // Show a live countdown so the user knows it's working (not frozen)
+            let warmupSecs = 0;
+            const warmupTimer = setInterval(() => {
+                warmupSecs++;
+                submitDepositBtn.textContent = `កំពុងភ្ញាក់ Server... (${warmupSecs}s)`;
+            }, 1000);
+
             try {
-                // 1. Call local backend to create QR
+                // Single request to create QR — 90s timeout covers Render cold start (~30-60s)
                 const response = await fetch('https://khqr-api-zfg9.onrender.com/api/create-qr', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: amount, currency: 'USD' })
+                    body: JSON.stringify({ amount: amount, currency: 'USD' }),
+                    signal: AbortSignal.timeout(90000)
                 });
+                clearInterval(warmupTimer);
+                submitDepositBtn.textContent = 'កំពុងបង្កើត QR...';
 
                 if (!response.ok) throw new Error('Failed to generate QR');
                 
                 const data = await response.json();
-                // We use pure qr_data to fetch the QR image instantly from a fast API
-                // This prevents Render backend from freezing!
-const { qr_data, md5 } = data;
-                const qr_image = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qr_data)}&ecc=M&margin=1`;
+                const { qr_data, md5, check_token } = data;
+
+                // check_token is the Bakong JWT — used by the browser (Cambodia IP) to call NBC directly.
 
                 // 2. Display QR Code in the modal
                 const qrContainer = document.createElement('div');
@@ -608,15 +617,12 @@ const { qr_data, md5 } = data;
                 qrContainer.className = 'mt-4 text-center flex flex-col items-center';
                 qrContainer.innerHTML = `
                     <div class="animated-border-wrapper shadow-2xl" style="border-radius: 12px; overflow: hidden;">
-                        <div class="animated-border-content" style="background:#fff; border-radius: 8px; overflow:hidden;">
-                            <!-- Red KHQR Header Mockup -->
-                            <div style="background-color: #E63946; color: white; padding: 12px 0; display: flex; align-items: center; justify-content: center; width: 100%;">
-                                <span style="font-size: 22px; font-weight: 800; letter-spacing: 1px; font-family: 'Kantumruy Pro', sans-serif;"><span style="border: 2px solid white; border-radius: 50%; padding: 0 4px; margin-right: 6px;">$</span> KHQR</span> 
+                        <div class="animated-border-content" style="background:#fff; border-radius: 8px; overflow:hidden; min-height:290px; display:flex; align-items:center; justify-content:center;">
+                            <div id="qr-img-placeholder" style="width:280px;height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                <div class="animate-spin rounded-full h-10 w-10 border-4 border-gray-200" style="border-top-color:#cc0000;"></div>
+                                <p style="color:#888;font-size:12px;margin-top:10px;">កំពុងបង្ហាញ KHQR...</p>
                             </div>
-                            <div style="padding: 10px;">
-                                <img src="${qr_image}" alt="KHQR Code" class="mx-auto" style="width: 250px; height: 250px; display: block;">
-                            </div>
-                            <img src="https://yt3.ggpht.com/BbF5fS-zToCa_H-tMU6losu64hUrmO3AdTEX_1JufjHPp0QtM4HMsAf7YFnLdmaVtGTluoNsyHY0yeQ=s250-rw-nd-v1" alt="Supported Banks" class="mx-auto" style="width: 250px; height: auto;">
+                            <img id="khqr-img" src="" alt="KHQR Code" class="mx-auto" style="width:280px;height:auto;display:none;">
                         </div>
                     </div>
                     <p class="text-slate-300 mt-3 font-medium">Scan ដើម្បីបង់ប្រាក់ $${amount.toFixed(2)}</p>
@@ -639,38 +645,75 @@ const { qr_data, md5 } = data;
                 depositForm.appendChild(qrContainer);
                 submitDepositBtn.classList.add('hidden'); // Hide submit button while showing QR
 
+                // Load the official Bakong KHQR styled image asynchronously (CPU-heavy, must not block modal)
+                (async () => {
+                    try {
+                        const imgRes = await fetch('https://khqr-api-zfg9.onrender.com/api/qr-image', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ qr_data })
+                        });
+                        if (imgRes.ok) {
+                            const imgData = await imgRes.json();
+                            const imgEl = document.getElementById('khqr-img');
+                            const placeholder = document.getElementById('qr-img-placeholder');
+                            if (imgEl && imgData.qr_image) {
+                                imgEl.src = imgData.qr_image;
+                                imgEl.style.display = 'block';
+                                if (placeholder) placeholder.style.display = 'none';
+                            }
+                        }
+                    } catch (_) { /* spinner stays if image fails */ }
+                })();
+
                 // --- MANUAL REFRESH BUTTON LOGIC ---
                 const manualRefreshBtn = document.getElementById('manual-refresh-btn');
                 const refreshStatus = document.getElementById('refresh-status');
-                
+
+                // Check payment from BROWSER (Cambodia IP).
+                // Attempt 1: NBC API directly (works on deployed HTTPS domain).
+                // Attempt 2: relay from browser (relay has CORS headers + Cambodia IP proxy).
                 async function checkPaymentStatus() {
+                    if (!check_token) return false;
+
+                    // Attempt 1: NBC API directly
                     try {
-                        const checkRes = await fetch('https://khqr-api-zfg9.onrender.com/api/check-payment', {
+                        const res = await fetch('https://api-bakong.nbc.gov.kh/v1/check_transaction_by_md5', {
                             method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ md5: md5 })
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${check_token}` },
+                            body: JSON.stringify({ md5: md5 }),
+                            signal: AbortSignal.timeout(10000)
                         });
-                        
-                        const checkData = await checkRes.json();
-                        console.log("Check API Response:", checkData); // Log for debugging
-                        
-                        if (checkData.status === "PAID") {
-                            return true; // PAID
-                        } else {
-                            if (refreshStatus && refreshStatus.textContent === "កំពុងពិនិត្យ...") {
-                                refreshStatus.textContent = "មិនទាន់ទទួលបានប្រាក់ទេ";
+                        if (res.ok) {
+                            const d = await res.json();
+                            if (d.responseCode === 0) return true;
+                            if (d.responseCode !== undefined) {
+                                if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
+                                return false;
                             }
-                            return false; // UNPAID
                         }
-                    } catch (err) {
-                        console.error("Payment Check Error:", err);
-                        if (refreshStatus && refreshStatus.textContent === "កំពុងពិនិត្យ...") {
-                            refreshStatus.textContent = "មានបញ្ហារអាក់រអួលក្នុងការឆែក!";
+                    } catch (_) {}
+
+                    // Attempt 2: relay from browser (relay has CORS + Cambodia IP)
+                    try {
+                        const relayRes = await fetch('https://api.bakongrelay.com/v1/check_transaction_by_md5', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${check_token}` },
+                            body: JSON.stringify({ md5: md5 }),
+                            signal: AbortSignal.timeout(10000)
+                        });
+                        if (relayRes.ok) {
+                            const rd = await relayRes.json();
+                            if (rd.responseCode === 0) return true;
+                            if (rd.responseCode !== undefined) {
+                                if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
+                                return false;
+                            }
                         }
-                        return false;
-                    }
+                    } catch (_) {}
+
+                    if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
+                    return false;
                 }
 
                 // Handle Manual Click
@@ -772,9 +815,13 @@ const { qr_data, md5 } = data;
                 }, 5000); // Check every 5 seconds
 
             } catch (error) {
+                clearInterval(warmupTimer);
                 console.error("QR Generation Error: ", error);
-                depositStatus.textContent = "បរាជ័យក្នុងការបង្កើត QR Code។ សូមព្យាយាមម្តងទៀត។";
-                depositStatus.classList.add('text-red-400');
+                const isTimeout = error.name === 'TimeoutError' || error.name === 'AbortError';
+                depositStatus.textContent = isTimeout
+                    ? "Server ចំណាយពេលច្រើន សូមចុច 'បញ្ចូលលុយ' ម្ដងទៀត"
+                    : "បរាជ័យក្នុងការបង្កើត QR Code។ សូមព្យាយាមម្តងទៀត។";
+                depositStatus.classList.add(isTimeout ? 'text-yellow-400' : 'text-red-400');
                 submitDepositBtn.disabled = false;
                 submitDepositBtn.textContent = 'បញ្ចូលលុយ';
             }
@@ -1121,32 +1168,7 @@ const { qr_data, md5 } = data;
             }
         });
 
-        // --- SECURITY / ANTI-INSPECT SCRIPTS ---
-        // Disable Right Click
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Disable specific keyboard shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
-        document.addEventListener('keydown', (e) => {
-            if (
-                e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && e.key === 'I') || 
-                (e.ctrlKey && e.shiftKey && e.key === 'C') || 
-                (e.ctrlKey && e.shiftKey && e.key === 'J') || 
-                (e.ctrlKey && e.key === 'U')
-            ) {
-                e.preventDefault();
-            }
-        });
-
-        // Debugger loop trap (causes devtools to pause constantly if opened)
-        setInterval(function() {
-            var start = performance.now();
-            debugger;
-            if (performance.now() - start > 100) {
-                // If the debugger triggered and caused a delay, we can reload or clear body
-                document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%;'>ការចូលមើលកូដត្រូវបានហាមឃាត់! (Access Denied)</h1>";
-            }
-        }, 1000);
+        // --- SECURITY / ANTI-INSPECT SCRIPTS (temporarily disabled for debugging) ---
 
     </script>
 </body>

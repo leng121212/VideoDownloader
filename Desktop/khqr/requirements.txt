@@ -1,6 +1,6 @@
 Flask
 Flask-Cors
-bakong-khqr
+bakong-khqr==0.5.3
 qrcode
 Pillow
 gunicorn
