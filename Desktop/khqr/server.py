@@ -11,7 +11,7 @@ CORS(app)  # Enable CORS for all domains
 # Primary token (relay): stored as environment variable on hosting platform
 BAKONG_TOKEN = os.environ.get(
     "BAKONG_TOKEN",
-    "rbkJSlqXv-ZAIDcmwSufaAufUQIjqzjPKllXJczuRTxxBE"
+    "rbkAHKEGlJfbqzcIP2q_CmBr1i5rJ2APGcGwbyW8odq-YE"
 )
 khqr = KHQR(BAKONG_TOKEN)
 
