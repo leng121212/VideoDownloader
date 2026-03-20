@@ -30,12 +30,29 @@ khqr_direct = KHQR(BAKONG_FALLBACK_TOKEN) if BAKONG_FALLBACK_TOKEN else None
 
 
 def _check_payment_via_fallback(md5_hash):
-    """Server-side fallback: use the NBA direct JWT token via the SDK to check payment status."""
-    if not khqr_direct:
+    """
+    Check payment via api.bakongrelay.com (Cambodia IP proxy) using the JWT token.
+    The relay forwards JWT-authenticated requests to NBC from its Cambodia IP,
+    bypassing Render's non-Cambodia IP restriction.
+    """
+    if not BAKONG_FALLBACK_TOKEN:
         return "UNPAID"
     try:
-        return khqr_direct.check_payment(md5_hash)
-    except Exception:
+        conn = http.client.HTTPSConnection("api.bakongrelay.com", timeout=15)
+        headers = {
+            "Authorization": f"Bearer {BAKONG_FALLBACK_TOKEN}",
+            "Content-Type": "application/json",
+        }
+        conn.request("POST", "/v1/check_transaction_by_md5",
+                     json.dumps({"md5": md5_hash}), headers)
+        resp = conn.getresponse()
+        data = json.loads(resp.read().decode())
+        print(f"[check-payment] relay status={resp.status} responseCode={data.get('responseCode')}")
+        if data.get("responseCode") == 0:
+            return "PAID"
+        return "UNPAID"
+    except Exception as e:
+        print(f"[check-payment] relay error: {e}")
         return "UNPAID"
 
 @app.route('/api/ping', methods=['GET'])

@@ -718,6 +718,22 @@
                         }
                     } catch (e) { console.warn('[check-payment] relay error:', e.message); }
 
+                    // Attempt 3: Render backend as proxy (calls relay from server-side)
+                    try {
+                        const backendRes = await fetch('https://khqr-api-zfg9.onrender.com/api/check-payment', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ md5: md5 }),
+                            signal: AbortSignal.timeout(15000)
+                        });
+                        console.log('[check-payment] backend status:', backendRes.status);
+                        if (backendRes.ok) {
+                            const bd = await backendRes.json();
+                            console.log('[check-payment] backend response:', bd);
+                            if (bd.status === 'PAID') return true;
+                        }
+                    } catch (e) { console.warn('[check-payment] backend error:', e.message); }
+
                     if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
                     return false;
                 }
