@@ -608,6 +608,8 @@
                 
                 const data = await response.json();
                 const { qr_data, md5, check_token } = data;
+                console.log('[QR] create-qr response keys:', Object.keys(data));
+                console.log('[QR] check_token present:', !!check_token, '| md5:', md5);
 
                 // check_token is the Bakong JWT — used by the browser (Cambodia IP) to call NBC directly.
 
@@ -674,7 +676,7 @@
                 // Attempt 1: NBC API directly (works on deployed HTTPS domain).
                 // Attempt 2: relay from browser (relay has CORS headers + Cambodia IP proxy).
                 async function checkPaymentStatus() {
-                    if (!check_token) return false;
+                    if (!check_token) { console.warn('[check-payment] check_token is missing!'); return false; }
 
                     // Attempt 1: NBC API directly
                     try {
@@ -684,15 +686,17 @@
                             body: JSON.stringify({ md5: md5 }),
                             signal: AbortSignal.timeout(10000)
                         });
+                        console.log('[check-payment] NBC status:', res.status);
                         if (res.ok) {
                             const d = await res.json();
+                            console.log('[check-payment] NBC response:', d);
                             if (d.responseCode === 0) return true;
                             if (d.responseCode !== undefined) {
                                 if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
                                 return false;
                             }
                         }
-                    } catch (_) {}
+                    } catch (e) { console.warn('[check-payment] NBC error:', e.message); }
 
                     // Attempt 2: relay from browser (relay has CORS + Cambodia IP)
                     try {
@@ -702,15 +706,17 @@
                             body: JSON.stringify({ md5: md5 }),
                             signal: AbortSignal.timeout(10000)
                         });
+                        console.log('[check-payment] relay status:', relayRes.status);
                         if (relayRes.ok) {
                             const rd = await relayRes.json();
+                            console.log('[check-payment] relay response:', rd);
                             if (rd.responseCode === 0) return true;
                             if (rd.responseCode !== undefined) {
                                 if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
                                 return false;
                             }
                         }
-                    } catch (_) {}
+                    } catch (e) { console.warn('[check-payment] relay error:', e.message); }
 
                     if (refreshStatus && refreshStatus.textContent === 'កំពុងពិនិត្យ...') refreshStatus.textContent = 'មិនទាន់ទទួលបានប្រាក់ទេ';
                     return false;
