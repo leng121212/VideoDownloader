@@ -780,13 +780,16 @@
                     }
                 }, 1000);
 
-                // Polling for Payment Status (Backup auto check every 5 seconds)
+                // Remove auto-polling interval to save API limits.
+                // It will only check when the user manually clicks the "ពិនិត្យការបង់ប្រាក់" button.
+                /* 
                 currentCheckInterval = setInterval(async () => {
                     const isPaid = await checkPaymentStatus();
                     if (isPaid) {
                         handlePaymentSuccess();
                     }
                 }, 5000); // Check every 5 seconds
+                */
 
             } catch (error) {
                 clearInterval(warmupTimer);
