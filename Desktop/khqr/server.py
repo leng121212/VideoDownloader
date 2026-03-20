@@ -29,28 +29,16 @@ BAKONG_FALLBACK_TOKEN = os.environ.get(
 khqr_direct = KHQR(BAKONG_FALLBACK_TOKEN) if BAKONG_FALLBACK_TOKEN else None
 
 
-def _check_payment_via_fallback(md5_hash):
+def _check_payment(md5_hash):
     """
-    Check payment via api.bakongrelay.com (Cambodia IP proxy) using the JWT token.
-    The relay forwards JWT-authenticated requests to NBC from its Cambodia IP,
-    bypassing Render's non-Cambodia IP restriction.
+    Check payment via the relay (api.bakongrelay.com) using the rbk token.
+    The relay accepts rbk tokens and proxies from a Cambodia IP — this is
+    the same path used by create_qr() and is known to work.
     """
-    if not BAKONG_FALLBACK_TOKEN:
-        return "UNPAID"
     try:
-        conn = http.client.HTTPSConnection("api.bakongrelay.com", timeout=15)
-        headers = {
-            "Authorization": f"Bearer {BAKONG_FALLBACK_TOKEN}",
-            "Content-Type": "application/json",
-        }
-        conn.request("POST", "/v1/check_transaction_by_md5",
-                     json.dumps({"md5": md5_hash}), headers)
-        resp = conn.getresponse()
-        data = json.loads(resp.read().decode())
-        print(f"[check-payment] relay status={resp.status} responseCode={data.get('responseCode')}")
-        if data.get("responseCode") == 0:
-            return "PAID"
-        return "UNPAID"
+        result = khqr.check_payment(md5_hash)
+        print(f"[check-payment] relay result: {result}")
+        return result  # "PAID" or "UNPAID"
     except Exception as e:
         print(f"[check-payment] relay error: {e}")
         return "UNPAID"
@@ -89,8 +77,7 @@ def create_qr():
         
         return jsonify({
             'qr_data': qr_data,
-            'md5': md5,
-            'check_token': BAKONG_FALLBACK_TOKEN
+            'md5': md5
         })
 
     except Exception as e:
@@ -122,9 +109,7 @@ def check_payment():
         md5 = data.get('md5')
         if not md5:
             return jsonify({'error': 'MD5 is required'}), 400
-        # Browser-side is primary (Cambodia IP). This backend fallback works
-        # if Render region is ever changed to Singapore/Asia-Pacific.
-        status = _check_payment_via_fallback(md5)
+        status = _check_payment(md5)
         return jsonify({'status': status})
     except Exception as e:
         print(f'[check-payment] error: {e}')
