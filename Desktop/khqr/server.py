@@ -15,20 +15,6 @@ BAKONG_TOKEN = os.environ.get(
 )
 khqr = KHQR(BAKONG_TOKEN)
 
-# Fallback token: direct NBC developer token used when the relay token cannot check payments.
-# The relay token (rbk...) does not support the check-payment endpoint and returns 401.
-# IMPORTANT: Rotate this token in the Bakong developer portal and set the fresh value in the
-# BAKONG_FALLBACK_TOKEN environment variable on Render — never commit the real token to source control.
-BAKONG_FALLBACK_TOKEN = os.environ.get(
-    "BAKONG_FALLBACK_TOKEN",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoiYzc5MzBkZDNlNDE4NGQyMiJ9LCJpYXQiOjE3NzMyODEzMjcsImV4cCI6MTc4MTA1NzMyN30.LQsLZN0P-19UiFgpfMSKs45wN6VtmKEQyoTJiP3iliQ"
-)
-
-# Second KHQR instance using the JWT token — targets api-bakong.nbc.gov.kh directly.
-# Used only for check-payment since the relay (rbk) token returns 401 on that endpoint.
-khqr_direct = KHQR(BAKONG_FALLBACK_TOKEN) if BAKONG_FALLBACK_TOKEN else None
-
-
 def _check_payment(md5_hash):
     """
     Check payment via the relay (api.bakongrelay.com) using the rbk token.
@@ -94,13 +80,6 @@ def qr_image_endpoint():
         return jsonify({'qr_image': qr_image_uri})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@app.route('/api/get-check-token', methods=['GET'])
-def get_check_token():
-    """Return the JWT token so the browser (Cambodia IP) can call NBC check-payment directly."""
-    if not BAKONG_FALLBACK_TOKEN:
-        return jsonify({'error': 'No token configured'}), 500
-    return jsonify({'token': BAKONG_FALLBACK_TOKEN})
 
 @app.route('/api/check-payment', methods=['POST'])
 def check_payment():
